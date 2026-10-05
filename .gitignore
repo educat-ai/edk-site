@@ -1,0 +1,18 @@
+# macOS
+.DS_Store
+
+# Eski tasarım yedekleri (yerelde duruyor)
+*-backup*/
+design-backup-*/
+site-backup-*/
+
+# Tasarım taslakları ve kontrol ekran görüntüleri
+tasarim-taslak/
+qa-new-flow/
+qa-reference/
+editorial-preview.png
+
+# Yerel ayarlar ve gizli dosyalar
+.env
+*.local.json
+client_secret*.json

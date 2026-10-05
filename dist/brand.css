@@ -1,0 +1,140 @@
+/* EDK identity, brighter logo-family colours.
+ * Turquoise and sky-blue story/programme fields use requested white text.
+ * Layout, type and supplied images stay intact.
+ */
+:root {
+  --edk-teal: #00bead;
+  --edk-blue: #009dde;
+  --edk-pink: #e00070;
+  --edk-teal-deep: #007e76;
+  --edk-teal-ink: #063c3b;
+  --edk-blue-deep: #00548b;
+  --edk-pink-deep: #bd005e;
+  --edk-navy: #082d53;
+  --edk-paper: #fff;
+  --edk-mist: #f0fffc;
+  --edk-mint: #dcfff8;
+  --edk-light-text: #f0f9ff;
+  --edk-copy: #284651;
+  --pink: var(--edk-pink);
+  --cyan: var(--edk-blue);
+}
+
+/* The existing campus hero and white film pause introduce the same accents. */
+.button-pink,
+.footer-join .button-pink { background: var(--edk-pink); color: #fff; }
+.button-pink:hover,
+.footer-join .button-pink:hover { background: var(--edk-pink-deep); }
+.nav-links a:hover { color: var(--edk-mint); }
+.film-section { box-shadow: inset 0 -6px 0 var(--edk-teal); }
+
+/* Bright turquoise carries the story with white headings and copy. */
+.about { background: var(--edk-teal); color: #fff; }
+.about-copy h2 { color: #fff; }
+.about-intro { color: #fff; }
+.about-intro span { color: #fff; }
+.about-body { color: #fff; }
+.about-visual-top { box-shadow: 12px 12px 0 var(--edk-blue); }
+.about-visual-bottom { box-shadow: -12px 12px 0 var(--edk-pink); }
+.about-visual-top::after,
+.about-visual-bottom::after { background: none; }
+
+/* The blue family supports equal keynotes and the full, visible speaker roster. */
+.speakers {
+  background: linear-gradient(120deg, #0069ad, #004f92);
+  color: #fff;
+  box-shadow: inset 0 6px 0 var(--edk-blue);
+}
+.speakers .section-heading h2,
+.speaker h3,
+.speaker-roster-title { color: #fff; }
+.speaker-image { background: linear-gradient(135deg, #38d2c6, #7bc7f5); }
+.speaker-image img { filter: none; }
+.speaker-tag { background: var(--edk-pink); border-color: #fff; color: #fff; }
+.speaker figcaption p,
+.speaker figcaption .speaker-summary,
+.speaker figcaption small,
+.speaker-note { color: var(--edk-light-text); }
+.speaker-roster { border-top-color: #a3e6ff; }
+.speaker-bio { color: #fff; border-color: #bfefff; }
+.speaker-bio:hover { background: var(--edk-blue-deep); }
+.speaker-bio:focus-visible { outline-color: var(--edk-mint); }
+
+/* White breathing space surrounds a theme strip using just the three families. */
+.themes { background: var(--edk-paper); box-shadow: inset 0 6px 0 var(--edk-pink); }
+.theme-heading h2,
+.partners h2 { color: var(--edk-teal-ink); }
+.theme-heading p,
+.theme-note,
+.partner-note,
+.partner-logo small { color: var(--edk-copy); }
+.theme-ai,
+.theme-teachers,
+.theme-creativity { background: linear-gradient(150deg, var(--edk-teal-deep), #00726b); }
+.theme-skills,
+.theme-edtech,
+.theme-leadership { background: linear-gradient(150deg, #006eae, var(--edk-blue-deep)); }
+.theme-stem,
+.theme-design { background: linear-gradient(150deg, var(--edk-pink), var(--edk-pink-deep)); }
+.theme-card > button:hover { background: #00000024; }
+.theme-controls button { background: var(--edk-paper); color: var(--edk-navy); }
+.theme-controls button:hover { background: var(--edk-navy); color: #fff; }
+.theme-viewport:focus-visible { outline-color: var(--edk-teal-deep); }
+
+/* A clear sky-blue programme complements turquoise; partner logos stay original. */
+.programme { background: #22afed; color: #fff; }
+.programme .section-heading h2,
+.program-row > span { color: #fff; }
+.programme .section-heading p,
+.program-row p,
+.program-row small,
+.program-note { color: #fff; }
+.program-row { border-color: #082d5380; }
+.partners { background: var(--edk-paper); box-shadow: inset 0 6px 0 var(--edk-blue); }
+.partner-logo img { filter: none; }
+.partner-sample > span { color: var(--edk-teal-ink); }
+
+/* The photographic archive links back to the blue speaker field. */
+.archive { background: linear-gradient(120deg, #0069ad, #004f92); color: #fff; box-shadow: inset 0 6px 0 var(--edk-pink); }
+.archive .section-heading h2 { color: #fff; }
+.archive .section-heading p,
+.gallery-hint { color: var(--edk-light-text); }
+.gallery-featured button,
+.gallery-strip button { box-shadow: inset 0 0 0 1px var(--edk-blue); }
+
+/* White space separates the vivid fields; clear teal keeps the questions connected. */
+.faq { background: var(--edk-paper); color: var(--edk-navy); }
+.faq .section-heading h2 { color: var(--edk-teal-ink); }
+.faq-categories button { color: var(--edk-copy); }
+.faq-categories button:hover { background: #c8f8f0; color: var(--edk-teal-ink); }
+.faq-categories button[aria-selected=true],
+.faq-categories button[aria-selected=true]:hover {
+  background: var(--edk-teal-deep);
+  border-color: var(--edk-teal-deep);
+  color: #fff;
+}
+.faq-categories button:focus-visible { outline-color: var(--edk-pink); }
+.faq details { background: var(--edk-mist); border-color: #00877d; }
+.faq details[open] { border-color: var(--edk-teal-deep); }
+.faq summary { color: var(--edk-navy); }
+.faq summary > span { color: var(--edk-teal-deep); }
+.faq summary::after { background: #fff; border-color: #00877d; color: var(--edk-teal-ink); }
+.faq details p { color: var(--edk-copy); }
+.faq details p a { color: var(--edk-teal-ink); }
+.faq summary:focus-visible { outline-color: var(--edk-teal-deep); }
+
+/* The footer closes with the same navy, teal and pink used above. */
+.site-footer { background: #043766; border-top-color: var(--edk-teal); }
+.footer-links h2,
+.footer-join h2 { color: var(--edk-mint); }
+.footer-brand p,
+.footer-links a,
+.footer-bottom,
+.footer-event { color: var(--edk-light-text); }
+.footer-sponsor { border-color: var(--edk-pink); }
+.footer-sponsor:hover { background: var(--edk-pink-deep); }
+
+@media (max-width: 700px) {
+  .about-visual-top { box-shadow: 8px 8px 0 var(--edk-blue); }
+  .about-visual-bottom { box-shadow: -8px 8px 0 var(--edk-pink); }
+}

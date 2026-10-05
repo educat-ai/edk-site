@@ -1,0 +1,8 @@
+# Öğretmen görseli
+
+Araç: built-in image_gen; şeffaf PNG. Dosya: dist/assets/teachers-future-v1.png.
+Kurgusal yetişkin eğitimciler; etkinlik arşivi fotoğrafı değildir.
+
+## Prompt
+
+Create a premium photographic cutout asset for a Turkish education conference website. Three fictional adult teachers, two women and one man, ages roughly 32-50, contemporary Turkish/Mediterranean appearance with distinct natural faces, thoughtful warm confident expressions. Editorial campaign photography, authentic educators exchanging an idea, not corporate stock-photo posing. Compact triangular composition: woman front-left holding a slim open notebook, man slightly behind right listening, second woman at rear-left leaning into conversation; all engaged with each other, one natural restrained explanatory hand gesture. Neat contemporary smart casual clothes: navy jacket, cream shirt, muted blue layers. Mid-thigh portrait composition with intentional complete framing, no awkwardly clipped hands or heads. Future of education conveyed by collaboration and one understated tablet, no robots or sci-fi suits. Photoreal skin and fabric, beautiful professional studio key light, cyan blue rim lighting on one side and restrained magenta rim on the other, rich shadows appropriate for dark navy #17162e website. Output genuinely TRANSPARENT BACKGROUND alpha; isolated people and their held notebook/tablet only. No rectangle, no studio backdrop, no floor, no text, no logos, no lanyard text, no diagrams, no decorative effects behind them (those will be a separate web layer). High quality sharp natural anatomy. Portrait approximately 4:5 composition, generous transparent space around silhouettes.
