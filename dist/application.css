@@ -50,7 +50,7 @@ html.application-open { overflow: hidden; }
 :is(#application-dialog,#participant-dialog) .application-field-wide { grid-column: 1 / -1; }
 :is(#application-dialog,#participant-dialog) .application-field > label, :is(#application-dialog,#participant-dialog) .application-field legend { display: block; margin-bottom: 8px; padding: 0; color: var(--edk-navy); font-size: 14px; font-weight: 700; line-height: 1.45; }
 :is(#application-dialog,#participant-dialog) .application-field > label > span, :is(#application-dialog,#participant-dialog) legend > span { color: var(--edk-pink-deep); }
-:is(#application-dialog,#participant-dialog) input[type="text"], :is(#application-dialog,#participant-dialog) input[type="email"], :is(#application-dialog,#participant-dialog) textarea {
+:is(#application-dialog,#participant-dialog) input[type="text"], :is(#application-dialog,#participant-dialog) input[type="email"], :is(#application-dialog,#participant-dialog) input[type="tel"], :is(#application-dialog,#participant-dialog) textarea {
   display: block; width: 100%; min-height: 46px; margin: 0; padding: 10px 12px; border: 1px solid #788e93; border-radius: 8px; background: #fff; color: var(--edk-navy); font-size: 16px; line-height: 1.5;
 }
 :is(#application-dialog,#participant-dialog) textarea { resize: vertical; min-height: 110px; }
