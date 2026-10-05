@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&display=swap">
-  <link rel="stylesheet" href="site.css?v=gece-mavisi-1">
+  <link rel="stylesheet" href="site.css?v=gece-mavisi-2">
   <link rel="stylesheet" href="application.css?v=application-preview-1">
 </head>
 <body class="subpage">
@@ -24,14 +24,14 @@
         <a href="hakkimizda.html" aria-current="page">Hakkımızda</a><a href="index.html#konusmacilar">Konuşmacılar</a><a href="index.html#temalar">Temalar</a><a href="index.html#program">Program</a><a href="index.html#mekan">Mekân</a><a href="index.html#galeri">Galeri</a><a href="index.html#sss">SSS</a><a href="index.html#iletisim">İletişim</a>
       </div>
       <div class="nav-mobile-actions">
-        <button class="btn btn-primary" type="button" data-panel="participant">Katılımcı Başvurusu</button>
+        <button class="btn btn-primary" type="button" data-panel="participant">Katılımcı Kaydı</button>
         <button class="btn btn-ghost" type="button" data-panel="apply">Sunum ve Atölye Başvurusu</button>
         <button class="btn btn-ghost" type="button" data-panel="sponsor">Sponsorluk</button>
       </div>
     </nav>
     <div class="nav-actions">
       <button class="btn btn-ghost nav-sponsor" type="button" data-panel="sponsor">Sponsorluk</button>
-      <button class="btn btn-primary" type="button" data-panel="participant">Başvur</button>
+      <button class="btn btn-primary" type="button" data-panel="participant">Kayıt Ol</button>
       <button class="menu-toggle" type="button" aria-label="Menüyü aç" aria-expanded="false" aria-controls="navigation"><span></span><span></span></button>
     </div>
   </div>
@@ -170,7 +170,7 @@
       <ul class="manifesto"><li>Öğretmenleri bir araya getirmek.</li><li>Deneyimleri paylaşmak.</li><li>Uygulamaları birlikte keşfetmek.</li><li>Yeni bağlantılar kurmak.</li></ul>
       <h2 id="cta-title">Ve eğitimde değişimi <span class="grad">birlikte üretmek.</span></h2>
       <p>Çünkü EDK için eğitimde değişim, yalnızca bir konuşmayı dinlemekle değil; öğrenmek, paylaşmak, bağlantı kurmak ve birlikte üretmekle mümkün.</p>
-      <div class="ctas"><button class="btn btn-white btn-lg" type="button" data-panel="participant">Katılımcı Başvurusu <span aria-hidden="true">→</span></button><button class="btn btn-ghost btn-lg" type="button" data-panel="apply">Sunum ve Atölye Başvurusu</button></div>
+      <div class="ctas"><button class="btn btn-white btn-lg" type="button" data-panel="participant">Kayıt Ol <span aria-hidden="true">→</span></button><button class="btn btn-ghost btn-lg" type="button" data-panel="apply">Sunum ve Atölye Başvurusu</button></div>
     </div></div>
   </section>
 
@@ -192,7 +192,7 @@
       <div class="footer-brand"><a href="index.html" aria-label="EDK ana sayfaya dön"><img src="assets/edk-logo-transparent.png" width="1774" height="887" alt="EDK — Eğitimde Değişim Konferansı" loading="lazy"></a><p>Öğretmenlerin deneyimlerinden doğan bir buluşma.</p><p><time datetime="2026-12-19">19 Aralık 2026 · Cumartesi</time><br>İstinye Üniversitesi Vadi Ana Kampüs · İstanbul</p></div>
       <div><h2>Keşfet</h2><a href="hakkimizda.html">Hakkımızda</a><a href="index.html#hakkinda">EDK Nedir?</a><a href="index.html#konusmacilar">Konuşmacılar</a><a href="index.html#temalar">Salon Temaları</a><a href="index.html#program">Program</a><a href="index.html#mekan">Mekân</a></div>
       <div><h2>Bilgi</h2><a href="index.html#galeri">Galeri</a><a href="index.html#partnerler">Destekçiler</a><a href="index.html#sss">Sıkça Sorulan Sorular</a><a href="index.html#iletisim">İletişim</a><a href="#main">Başa dön ↑</a></div>
-      <div><h2>Katılım</h2><button type="button" data-panel="participant">Katılımcı Başvurusu</button><button type="button" data-panel="apply">Sunum ve Atölye Başvurusu</button><button type="button" data-panel="sponsor">Sponsorluk</button></div>
+      <div><h2>Katılım</h2><button type="button" data-panel="participant">Katılımcı Kaydı</button><button type="button" data-panel="apply">Sunum ve Atölye Başvurusu</button><button type="button" data-panel="sponsor">Sponsorluk</button></div>
     </div>
     <div class="footer-bottom"><span>© 2026 Eğitimde Değişim Konferansı</span><span>Eğitimde İnovasyon Derneği</span></div>
   </div>
@@ -267,11 +267,21 @@
         <h3 id="application-stage-1" tabindex="-1">Sunum veya atölye</h3>
         <p class="application-stage-note">Paylaşmak istediğiniz çalışmayı anlatın. * işaretli alanlar zorunludur.</p>
         <div class="application-grid">
-          <div class="application-field application-field-wide" data-application-field="category">
-            <label for="application-category">Sunumunuz veya atölyeniz hangi kategoride bulunmaktadır? <span aria-hidden="true">*</span></label>
-            <input id="application-category" name="category" type="text" required aria-describedby="application-category-error">
+          <fieldset class="application-field application-field-wide application-choice-field" data-application-field="category" aria-describedby="application-category-error">
+            <legend>Sunumunuz veya atölyeniz hangi temada? <span aria-hidden="true">*</span></legend>
+            <div class="application-choices">
+              <label><input name="category" type="radio" value="Yapay Zekâ" required aria-describedby="application-category-error"><span>Yapay Zekâ</span></label>
+              <label><input name="category" type="radio" value="Beceri Eğitimi" aria-describedby="application-category-error"><span>Beceri Eğitimi</span></label>
+              <label><input name="category" type="radio" value="STEM" aria-describedby="application-category-error"><span>STEM</span></label>
+              <label><input name="category" type="radio" value="Eğitim Teknolojileri" aria-describedby="application-category-error"><span>Eğitim Teknolojileri</span></label>
+              <label><input name="category" type="radio" value="Öğretmen Gelişimi" aria-describedby="application-category-error"><span>Öğretmen Gelişimi</span></label>
+              <label><input name="category" type="radio" value="Öğrenme Tasarımı" aria-describedby="application-category-error"><span>Öğrenme Tasarımı</span></label>
+              <label><input name="category" type="radio" value="Yaratıcılık ve Yenilikçilik" aria-describedby="application-category-error"><span>Yaratıcılık ve Yenilikçilik</span></label>
+              <label><input name="category" type="radio" value="Okul ve Eğitim Liderliği" aria-describedby="application-category-error"><span>Okul ve Eğitim Liderliği</span></label>
+              <label><input name="category" type="radio" value="Diğer" aria-describedby="application-category-error"><span>Diğer</span></label>
+            </div>
             <p class="application-field-error" id="application-category-error" hidden></p>
-          </div>
+          </fieldset>
           <div class="application-field application-field-wide" data-application-field="presentationTitle">
             <label for="application-presentation-title">Sunum Başlığı <span aria-hidden="true">*</span></label>
             <input id="application-presentation-title" name="presentationTitle" type="text" required aria-describedby="application-presentation-title-error">
@@ -321,9 +331,125 @@
     </footer>
   </form>
 </dialog>
+<dialog id="participant-dialog" aria-labelledby="participant-title" aria-describedby="participant-preview-note">
+  <header class="application-header">
+    <p class="application-kicker">11. EĞİTİMDE DEĞİŞİM KONFERANSI · 19 ARALIK 2026</p>
+    <h2 id="participant-title">Katılımcı<br>Kayıt Formu</h2>
+    <button class="close" type="button" aria-label="Kayıt formunu kapat">×</button>
+  </header>
+  <div class="application-preview" id="participant-preview-note">
+    <strong>Önizleme · Gönderim henüz etkin değil.</strong>
+    <p>Formu doldurup kontrol edebilirsiniz; kaydınız henüz hiçbir yere gönderilmez.</p>
+  </div>
+  <form id="participant-form" novalidate autocomplete="on">
+    <div class="application-body" data-participant-view="form">
+      <p class="application-error-summary" id="participant-error-summary" role="alert" hidden></p>
+      <section class="application-stage" aria-labelledby="participant-stage-title">
+        <h3 id="participant-stage-title" tabindex="-1">İzleyici olarak katıl</h3>
+        <p class="application-stage-note">Keynote konuşmaları, atölyeler ve deneyim paylaşımları için kaydını oluştur. * işaretli alanlar zorunludur.</p>
+        <div class="application-grid">
+          <div class="application-field" data-participant-field="fullName">
+            <label for="participant-full-name">Ad Soyad <span aria-hidden="true">*</span></label>
+            <input id="participant-full-name" name="fullName" type="text" autocomplete="name" required aria-describedby="participant-full-name-error">
+            <p class="application-field-error" id="participant-full-name-error" hidden></p>
+          </div>
+          <div class="application-field" data-participant-field="email">
+            <label for="participant-email">E-posta <span aria-hidden="true">*</span></label>
+            <input id="participant-email" name="email" type="email" autocomplete="email" required aria-describedby="participant-email-error">
+            <p class="application-field-error" id="participant-email-error" hidden></p>
+          </div>
+          <div class="application-field" data-participant-field="phone">
+            <label for="participant-phone">Telefon <span aria-hidden="true">*</span></label>
+            <input id="participant-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="05XX XXX XX XX" required aria-describedby="participant-phone-error">
+            <p class="application-field-error" id="participant-phone-error" hidden></p>
+          </div>
+          <div class="application-field" data-participant-field="city">
+            <label for="participant-city">Şehir <span aria-hidden="true">*</span></label>
+            <input id="participant-city" name="city" type="text" autocomplete="address-level2" required aria-describedby="participant-city-error">
+            <p class="application-field-error" id="participant-city-error" hidden></p>
+          </div>
+          <div class="application-field application-field-wide" data-participant-field="institution">
+            <label for="participant-institution">Okul veya Kurum <span aria-hidden="true">*</span></label>
+            <input id="participant-institution" name="institution" type="text" autocomplete="organization" required aria-describedby="participant-institution-error">
+            <p class="application-field-error" id="participant-institution-error" hidden></p>
+          </div>
+          <fieldset class="application-field application-field-wide application-choice-field" data-participant-field="role" aria-describedby="participant-role-error">
+            <legend>Görevin <span aria-hidden="true">*</span></legend>
+            <div class="application-choices">
+              <label><input name="role" type="radio" value="Öğretmen" required><span>Öğretmen</span></label>
+              <label><input name="role" type="radio" value="Okul yöneticisi / Eğitim lideri"><span>Okul yöneticisi / Eğitim lideri</span></label>
+              <label><input name="role" type="radio" value="Rehber öğretmen"><span>Rehber öğretmen</span></label>
+              <label><input name="role" type="radio" value="Akademisyen"><span>Akademisyen</span></label>
+              <label><input name="role" type="radio" value="Eğitim teknolojileri uzmanı"><span>Eğitim teknolojileri uzmanı</span></label>
+              <label><input name="role" type="radio" value="Eğitim profesyoneli"><span>Eğitim profesyoneli</span></label>
+              <label><input name="role" type="radio" value="Öğretmen adayı"><span>Öğretmen adayı</span></label>
+              <label><input name="role" type="radio" value="Diğer"><span>Diğer</span></label>
+            </div>
+            <p class="application-field-error" id="participant-role-error" hidden></p>
+          </fieldset>
+          <fieldset class="application-field application-choice-field" data-participant-field="schoolType" aria-describedby="participant-school-type-error">
+            <legend>Kurum türü <span aria-hidden="true">*</span></legend>
+            <div class="application-choices">
+              <label><input name="schoolType" type="radio" value="Devlet okulu" required><span>Devlet okulu</span></label>
+              <label><input name="schoolType" type="radio" value="Özel okul"><span>Özel okul</span></label>
+              <label><input name="schoolType" type="radio" value="Üniversite"><span>Üniversite</span></label>
+              <label><input name="schoolType" type="radio" value="Diğer"><span>Diğer</span></label>
+            </div>
+            <p class="application-field-error" id="participant-school-type-error" hidden></p>
+          </fieldset>
+          <fieldset class="application-field application-choice-field" data-participant-field="levels">
+            <legend>Çalıştığın kademe <small>(birden fazla seçebilirsin)</small></legend>
+            <div class="application-choices">
+              <label><input name="levels" type="checkbox" value="Okul öncesi"><span>Okul öncesi</span></label>
+              <label><input name="levels" type="checkbox" value="İlkokul"><span>İlkokul</span></label>
+              <label><input name="levels" type="checkbox" value="Ortaokul"><span>Ortaokul</span></label>
+              <label><input name="levels" type="checkbox" value="Lise"><span>Lise</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="application-field application-field-wide application-choice-field" data-participant-field="themes">
+            <legend>En çok ilgilendiğin temalar <small>(isteğe bağlı)</small></legend>
+            <div class="application-choices">
+              <label><input name="themes" type="checkbox" value="Yapay Zekâ"><span>Yapay Zekâ</span></label>
+              <label><input name="themes" type="checkbox" value="Beceri Eğitimi"><span>Beceri Eğitimi</span></label>
+              <label><input name="themes" type="checkbox" value="STEM"><span>STEM</span></label>
+              <label><input name="themes" type="checkbox" value="Eğitim Teknolojileri"><span>Eğitim Teknolojileri</span></label>
+              <label><input name="themes" type="checkbox" value="Öğretmen Gelişimi"><span>Öğretmen Gelişimi</span></label>
+              <label><input name="themes" type="checkbox" value="Öğrenme Tasarımı"><span>Öğrenme Tasarımı</span></label>
+              <label><input name="themes" type="checkbox" value="Yaratıcılık ve Yenilikçilik"><span>Yaratıcılık ve Yenilikçilik</span></label>
+              <label><input name="themes" type="checkbox" value="Okul ve Eğitim Liderliği"><span>Okul ve Eğitim Liderliği</span></label>
+            </div>
+          </fieldset>
+        </div>
+        <fieldset class="application-consent application-field" data-participant-field="consent" aria-describedby="participant-consent-error">
+          <legend>Kişisel veriler hakkında bilgilendirme <span aria-hidden="true">*</span></legend>
+          <p>Eğitimde İnovasyon Derneği, kişisel verilerin güvenliği hususuna azami hassasiyet göstermektedir. KVKK hakkında aydınlatma metnimiz için <a href="http://egitimdeinovasyon.org/hakkimizda/kvkk/" target="_blank" rel="noopener noreferrer">http://egitimdeinovasyon.org/hakkimizda/kvkk/</a> adresimizi ziyaret edebilirsiniz.</p>
+          <label class="application-approval"><input name="consent" type="checkbox" value="Onaylıyorum" required><span>Aydınlatma metnini okudum, onaylıyorum.</span></label>
+          <p class="application-field-error" id="participant-consent-error" hidden></p>
+          <label class="application-approval"><input name="newsletter" type="checkbox" value="Evet"><span>EDK duyurularını e-posta ile almak istiyorum. <small>(isteğe bağlı)</small></span></label>
+        </fieldset>
+      </section>
+    </div>
+    <div class="participant-success" data-participant-view="success" hidden tabindex="-1">
+      <div class="ok" aria-hidden="true">✓</div>
+      <h3>Kaydın alındı!</h3>
+      <p><strong id="participant-success-name"></strong>, 19 Aralık’ta İstinye Üniversitesi Vadi Kampüsü’nde görüşmek üzere.</p>
+      <p>Kayıt ayrıntıları <strong id="participant-success-email"></strong> adresine gönderilecek.</p>
+    </div>
+    <footer class="application-actions" data-participant-view="form">
+      <span class="application-position">Yaklaşık 2 dakika</span>
+      <button class="application-primary" id="participant-submit" type="submit">Kaydı tamamla <span aria-hidden="true">→</span></button>
+    </footer>
+    <footer class="application-actions" data-participant-view="success" hidden>
+      <span class="application-position"></span>
+      <button class="application-primary" id="participant-done" type="button">Kapat</button>
+    </footer>
+  </form>
+</dialog>
+
 <dialog id="photo-dialog" class="photo-dialog" aria-label="EDK arşiv fotoğrafı"><button class="close" type="button" aria-label="Fotoğrafı kapat">×</button><img alt=""><p></p></dialog>
 
-<script src="site.js?v=gece-mavisi-1"></script>
-<script src="application.js?v=application-preview-1"></script>
+<script src="site.js?v=gece-mavisi-2"></script>
+<script src="application.js?v=application-preview-2"></script>
+<script src="participant.js?v=participant-1"></script>
 </body>
 </html>

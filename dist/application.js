@@ -23,7 +23,7 @@
     {name: 'institution', label: 'Görevli Olduğunuz Okul veya Kurum', step: 0},
     {name: 'jobTitle', label: 'Göreviniz- Ünvanınız', step: 0},
     {name: 'education', label: 'Eğitim Kademesi', step: 0, kind: 'choice'},
-    {name: 'category', label: 'Sunumunuz veya atölyeniz hangi kategoride bulunmaktadır?', step: 1},
+    {name: 'category', label: 'Sunumunuz veya atölyeniz hangi kategoride bulunmaktadır?', step: 1, kind: 'choice'},
     {name: 'presentationTitle', label: 'Sunum Başlığı', step: 1},
     {name: 'description', label: 'Sunum Açıklaması', step: 1},
     {name: 'photo', label: 'Profil Fotoğrafı', step: 1, kind: 'file'},
@@ -43,6 +43,7 @@
     if (field.kind === 'file') return photo.files.length ? '' : 'Profil fotoğrafınızı seçin.';
     if (!value(field)) {
       if (field.name === 'education') return 'Eğitim kademenizi seçin.';
+      if (field.name === 'category') return 'Bir kategori seçin.';
       if (field.name === 'approval') return 'Devam etmek için “Onaylıyorum” seçeneğini işaretleyin.';
       return 'Bu alanı doldurun.';
     }

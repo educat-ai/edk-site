@@ -55,11 +55,10 @@ function openInfo({title, paragraphs = [], note, role, photo}) {
  infoDialog.scrollTop = 0;
 }
 const panels = {
- participant: {title: 'Katılımcı Başvurusu', paragraphs: ['Katılımcı başvuru bağlantısı yakında eklenecek.']},
  sponsor: {title: 'Eğitimcilerin buluşmasına destek olun.', paragraphs: ['EDK, gönüllü öğretmenlerin kurduğu Eğitimde İnovasyon Derneği tarafından düzenleniyor. Sponsorluk desteği, eğitimcilerin öğrenme ve deneyim paylaşımı ortamına katkı sağlar.'], note: 'Sponsorluk iletişim bilgileri ve başvuru detayları yakında paylaşılacak.'}
 };
-// "apply" düğmeleri application.js tarafından başvuru formuna bağlanır.
-document.querySelectorAll('[data-panel]:not([data-panel="apply"])').forEach(button => button.addEventListener('click', () => openInfo(panels[button.dataset.panel])));
+// "apply" düğmeleri application.js, "participant" düğmeleri participant.js tarafından formlara bağlanır.
+document.querySelectorAll('[data-panel="sponsor"]').forEach(button => button.addEventListener('click', () => openInfo(panels[button.dataset.panel])));
 
 const speakerData = JSON.parse(document.querySelector('#speaker-data')?.textContent || '{}');
 document.querySelectorAll('[data-speaker]').forEach(button => button.addEventListener('click', () => {
@@ -86,7 +85,7 @@ document.querySelectorAll('[data-photo]').forEach(button => button.addEventListe
 }));
 
 // Pencereleri kapat: × düğmesi veya dışına tıklama
-[infoDialog, photoDialog, document.querySelector('#application-dialog')].filter(Boolean).forEach(dialog => {
+[infoDialog, photoDialog, document.querySelector('#application-dialog'), document.querySelector('#participant-dialog')].filter(Boolean).forEach(dialog => {
  dialog.querySelector('.close').addEventListener('click', () => dialog.close());
  dialog.addEventListener('click', e => {
   if (e.target !== dialog) return;
