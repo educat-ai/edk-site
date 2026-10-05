@@ -71,18 +71,35 @@ document.querySelectorAll('[data-speaker]').forEach(button => button.addEventLis
 const themeData = JSON.parse(document.querySelector('#theme-data')?.textContent || '[]');
 document.querySelectorAll('[data-theme]').forEach(button => button.addEventListener('click', () => {
  const theme = themeData[Number(button.dataset.theme)];
- openInfo({title: theme.title, paragraphs: [theme.body], note: 'Planlanan salon teması. Oturum içerikleri ve ayrıntılı program yakında paylaşılacak.'});
+ openInfo({title: theme.title, paragraphs: [theme.body]});
 }));
 
-// Galeri büyütme
+// Galeri büyütme: aynı galerideki fotoğraflar arasında oklarla gezinme
 const photoDialog = document.querySelector('#photo-dialog');
+const photoImg = photoDialog.querySelector('img');
+const photoCaption = photoDialog.querySelector('p');
+let photoSet = [];
+let photoIndex = 0;
+function showPhoto(index) {
+ photoIndex = (index + photoSet.length) % photoSet.length;
+ const button = photoSet[photoIndex];
+ photoImg.src = button.dataset.photo;
+ photoImg.alt = button.querySelector('img').alt;
+ photoCaption.textContent = photoSet.length > 1 ? `${button.dataset.caption} · ${photoIndex + 1} / ${photoSet.length}` : button.dataset.caption;
+ photoDialog.classList.toggle('single', photoSet.length < 2);
+}
 document.querySelectorAll('[data-photo]').forEach(button => button.addEventListener('click', () => {
- const photo = photoDialog.querySelector('img');
- photo.src = button.dataset.photo;
- photo.alt = button.querySelector('img').alt;
- photoDialog.querySelector('p').textContent = button.dataset.caption;
+ const group = button.closest('[data-gallery]');
+ photoSet = group ? [...group.querySelectorAll('[data-photo]')] : [button];
+ showPhoto(photoSet.indexOf(button));
  photoDialog.showModal();
 }));
+photoDialog.querySelector('.pd-prev')?.addEventListener('click', () => showPhoto(photoIndex - 1));
+photoDialog.querySelector('.pd-next')?.addEventListener('click', () => showPhoto(photoIndex + 1));
+photoDialog.addEventListener('keydown', e => {
+ if (e.key === 'ArrowLeft') showPhoto(photoIndex - 1);
+ if (e.key === 'ArrowRight') showPhoto(photoIndex + 1);
+});
 
 // Pencereleri kapat: × düğmesi veya dışına tıklama
 [infoDialog, photoDialog, document.querySelector('#application-dialog'), document.querySelector('#participant-dialog')].filter(Boolean).forEach(dialog => {
