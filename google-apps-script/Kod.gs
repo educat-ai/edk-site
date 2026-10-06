@@ -13,7 +13,7 @@ const AYARLAR = {
   // Yeni başvuru gelince bilgi verilecek e-posta adresi. Boş bırakılırsa bildirim gönderilmez.
   BILDIRIM_EPOSTASI: '',
   // true yapılırsa başvuru yapan kişiye otomatik "başvurunuz alındı" e-postası gider.
-  ONAY_EPOSTASI_GONDER: false,
+  ONAY_EPOSTASI_GONDER: true,
   // Katılımcı kontenjanı. 0 = sınırsız. Dolunca yeni kayıt kabul edilmez.
   KATILIMCI_KONTENJANI: 0,
   // Fotoğrafların kaydedileceği Drive klasörünün adı.
