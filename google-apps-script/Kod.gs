@@ -18,9 +18,12 @@ const AYARLAR = {
   KATILIMCI_KONTENJANI: 0,
   // Fotoğrafların kaydedileceği Drive klasörünün adı.
   FOTO_KLASORU: 'EDK 2026 Başvuru Fotoğrafları',
-  // E-postalarda görünen gönderen adı ve "Yanıtla" denince gidecek adres.
+  // E-postalarda görünen gönderen adı ve adresi. Adres, kurulumu yapan Gmail hesabında
+  // "Postayı farklı adresten gönder" ile eklenmiş olmalı (KURULUM-FORMLAR.md). Eklenmemişse
+  // e-postalar kurulum hesabından gider, "Yanıtla" yine bu adrese yönlenir.
   GONDEREN_ADI: 'Eğitimde Değişim Konferansı',
-  YANIT_ADRESI: 'destek@educat.com.tr',
+  GONDEREN_ADRESI: 'bilgi@egitimdedegisim.com',
+  YANIT_ADRESI: 'bilgi@egitimdedegisim.com',
   KONFERANS: '11. Eğitimde Değişim Konferansı'
 };
 
@@ -34,7 +37,7 @@ const ETKINLIK = {
   site: 'https://educat-ai.github.io/edk-site/',
   logo: 'https://educat-ai.github.io/edk-site/assets/eposta/edk-logo.png',
   telefon: '0533 357 90 72',
-  eposta: 'destek@educat.com.tr',
+  eposta: 'bilgi@egitimdedegisim.com',
   program: [
     ['08.00 – 09.00', 'Kayıt ve karşılama'],
     ['09.00 – 11.00', 'Açılış ve keynote konuşmaları'],
@@ -221,7 +224,7 @@ function epostalar(tur, alanlar, requestId) {
       const satirlar = SAYFALAR[tur].sutunlar
         .filter(([ad]) => alanlar[ad] !== undefined && alanlar[ad] !== '' && ad !== 'consent')
         .map(([ad, etiket]) => [etiket, Array.isArray(alanlar[ad]) ? alanlar[ad].join(', ') : alanlar[ad] === true ? 'Evet' : alanlar[ad] === false ? 'Hayır' : alanlar[ad]]);
-      MailApp.sendEmail({
+      gonder({
         to: AYARLAR.BILDIRIM_EPOSTASI,
         subject: `Yeni ${baslik}: ${metin(alanlar.fullName)}`,
         name: AYARLAR.GONDEREN_ADI,
@@ -231,9 +234,7 @@ function epostalar(tur, alanlar, requestId) {
     }
     if (AYARLAR.ONAY_EPOSTASI_GONDER) {
       const posta = onayEpostasi(tur, alanlar, requestId);
-      const secenek = { to: metin(alanlar.email), subject: posta.konu, name: AYARLAR.GONDEREN_ADI, body: posta.metin, htmlBody: posta.html };
-      if (AYARLAR.YANIT_ADRESI) secenek.replyTo = AYARLAR.YANIT_ADRESI;
-      MailApp.sendEmail(secenek);
+      gonder({ to: metin(alanlar.email), subject: posta.konu, name: AYARLAR.GONDEREN_ADI, body: posta.metin, htmlBody: posta.html });
       onayGitti = true;
     }
   } catch (hata) {
@@ -241,6 +242,28 @@ function epostalar(tur, alanlar, requestId) {
     console.error(hata);
   }
   return onayGitti;
+}
+
+/** Gönderen adresi Gmail'de tanımlıysa onun adına, değilse kurulum hesabından gönderir. */
+function gonder(e) {
+  const secenek = { name: e.name, htmlBody: e.htmlBody };
+  if (AYARLAR.YANIT_ADRESI) secenek.replyTo = AYARLAR.YANIT_ADRESI;
+  const adres = AYARLAR.GONDEREN_ADRESI;
+  if (adres && GmailApp.getAliases().map(a => a.toLowerCase()).indexOf(adres.toLowerCase()) !== -1) {
+    secenek.from = adres;
+    GmailApp.sendEmail(e.to, e.subject, e.body, secenek);
+  } else {
+    MailApp.sendEmail(Object.assign({ to: e.to, subject: e.subject, body: e.body }, secenek));
+  }
+}
+
+/** Kontrol: gönderen adresinin Gmail'de tanımlı olup olmadığını günlüğe yazar. */
+function gonderenKontrol() {
+  const takmaAdlar = GmailApp.getAliases();
+  Logger.log('Gmail\'de tanımlı gönderen adresleri: ' + (takmaAdlar.join(', ') || '(yok)'));
+  Logger.log(takmaAdlar.map(a => a.toLowerCase()).indexOf(AYARLAR.GONDEREN_ADRESI.toLowerCase()) !== -1
+    ? 'Tamam: e-postalar ' + AYARLAR.GONDEREN_ADRESI + ' adresinden gidecek.'
+    : 'Henüz tanımlı değil: e-postalar kurulum hesabından gidecek, yanıtlar ' + AYARLAR.YANIT_ADRESI + ' adresine düşecek.');
 }
 
 function kac(deger) {

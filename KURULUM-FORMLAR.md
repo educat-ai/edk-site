@@ -82,6 +82,23 @@ Adres eklenince formların üstündeki "Önizleme · Gönderim henüz etkin değ
 
 ---
 
+## E-postaların bilgi@egitimdedegisim.com adresinden gitmesi
+
+Kodda gönderen adresi `bilgi@egitimdedegisim.com` olarak ayarlı. Gmail'in bu adres adına göndermesine izin vermek için, kurulumu yapan Gmail hesabında bir kerelik şu adımları yapın:
+
+1. Gmail'i açın; sağ üstte ⚙️ → **Tüm ayarları görün** → **Hesaplar ve İçe Aktarma**.
+2. **Postayı farklı adresten gönder** satırında **Başka bir e-posta adresi ekleyin**'e tıklayın.
+3. **Ad:** `Eğitimde Değişim Konferansı`, **E-posta:** `bilgi@egitimdedegisim.com`. "Takma ad olarak değerlendir" işaretli kalsın. **Sonraki adım**.
+4. Gmail, bilgi@ adresinin e-posta sunucusu bilgilerini (SMTP) ister. Bunları alan adının barındırma panelinden ya da e-posta sağlayıcısından alın:
+   - **SMTP sunucusu:** genelde `mail.egitimdedegisim.com`. Adres Google Workspace'teyse `smtp.gmail.com`.
+   - **Kullanıcı adı:** `bilgi@egitimdedegisim.com`
+   - **Şifre:** bilgi@ hesabının şifresi. Google Workspace'te iki adımlı doğrulama açıksa "uygulama şifresi" gerekir.
+   - **Bağlantı noktası:** 587 (TLS) ya da 465 (SSL)
+5. **Hesap ekle**'ye basın. Gmail, **bilgi@egitimdedegisim.com** adresine bir doğrulama e-postası gönderir; içindeki kodu girin ya da bağlantıya tıklayın.
+6. Apps Script'te üstteki listeden **`gonderenKontrol`** fonksiyonunu seçip **Çalıştır**'a basın. Yürütme günlüğünde "Tamam: e-postalar bilgi@egitimdedegisim.com adresinden gidecek." yazmalı.
+
+Bu adımlar yapılmadan önce de sistem çalışır: e-postalar kurulum hesabından gider ve "Yanıtla"ya basılınca yanıt bilgi@egitimdedegisim.com adresine düşer.
+
 ## Günlük kullanım
 
 - **Excel olarak indirmek:** Tabloda **Dosya → İndir → Microsoft Excel (.xlsx)**.
