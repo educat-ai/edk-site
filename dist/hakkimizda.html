@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&display=swap">
-  <link rel="stylesheet" href="site.css?v=gece-mavisi-11">
+  <link rel="stylesheet" href="site.css?v=gece-mavisi-12">
   <link rel="stylesheet" href="application.css?v=application-preview-4">
 </head>
 <body class="subpage">
@@ -214,7 +214,7 @@
     <li><span aria-hidden="true">2</span><b>Sunum veya atölye</b></li>
     <li><span aria-hidden="true">3</span><b>Kontrol ve onay</b></li>
   </ol>
-  <form id="application-form" method="dialog" novalidate autocomplete="off">
+  <form id="application-form" method="dialog" novalidate autocomplete="off"><input class="hp-field" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
     <div class="application-body">
       <p class="application-error-summary" id="application-error-summary" role="alert" hidden></p>
       <section class="application-stage" data-application-step="0" aria-labelledby="application-stage-0">
@@ -294,7 +294,7 @@
           </div>
           <div class="application-field application-field-wide" data-application-field="photo">
             <label for="application-photo">Profil Fotoğrafı <span aria-hidden="true">*</span></label>
-            <input id="application-photo" name="photo" type="file" multiple required aria-describedby="application-photo-hint application-photo-error">
+            <input id="application-photo" name="photo" type="file" accept="image/*" required aria-describedby="application-photo-hint application-photo-error">
             <p class="application-hint" id="application-photo-hint">Seçtiğiniz dosyalar yalnızca bu ekranda gösterilir; bu önizlemede dosya yüklenmez.</p>
             <div class="application-photo-preview" id="application-photo-preview" aria-live="polite"></div>
             <button class="application-text-button" id="application-clear-photo" type="button" hidden>Seçimi temizle</button>
@@ -341,7 +341,7 @@
     <strong>Önizleme · Gönderim henüz etkin değil.</strong>
     <p>Formu doldurup kontrol edebilirsiniz; kaydınız henüz hiçbir yere gönderilmez.</p>
   </div>
-  <form id="participant-form" novalidate autocomplete="on">
+  <form id="participant-form" novalidate autocomplete="on"><input class="hp-field" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
     <div class="application-body" data-participant-view="form">
       <p class="application-error-summary" id="participant-error-summary" role="alert" hidden></p>
       <section class="application-stage" aria-labelledby="participant-stage-title">
@@ -433,7 +433,7 @@
       <div class="ok" aria-hidden="true">✓</div>
       <h3>Kaydın alındı!</h3>
       <p><strong id="participant-success-name"></strong>, 19 Aralık’ta İstinye Üniversitesi Vadi Kampüsünde görüşmek üzere.</p>
-      <p>Kayıt ayrıntıları <strong id="participant-success-email"></strong> adresine gönderilecek.</p>
+      <p>Kaydın <strong id="participant-success-email"></strong> adresiyle alındı.</p>
     </div>
     <footer class="application-actions" data-participant-view="form">
       <span class="application-position">Yaklaşık 2 dakika</span>
@@ -449,7 +449,9 @@
 <dialog id="photo-dialog" class="photo-dialog" aria-label="EDK fotoğrafı"><button class="close" type="button" aria-label="Fotoğrafı kapat">×</button><img alt=""><button class="pd-nav pd-prev" type="button" aria-label="Önceki fotoğraf">‹</button><button class="pd-nav pd-next" type="button" aria-label="Sonraki fotoğraf">›</button><p></p></dialog>
 
 <script src="site.js?v=gece-mavisi-3"></script>
-<script src="application.js?v=application-preview-2"></script>
-<script src="participant.js?v=participant-1"></script>
+<script src="form-config.js?v=1"></script>
+<script src="form-submit.js?v=1"></script>
+<script src="application.js?v=application-live-1"></script>
+<script src="participant.js?v=participant-live-1"></script>
 </body>
 </html>

@@ -1,4 +1,5 @@
-/* Preview only: values remain in this page, with no storage or submission. */
+/* Sunum ve atölye başvuru formu. form-config.js içinde adres varsa Google E-Tablolar'a gönderir;
+   adres boşsa önizleme modunda kalır (bkz. KURULUM-FORMLAR.md). */
 (() => {
   const dialog = document.querySelector('#application-dialog');
   const form = document.querySelector('#application-form');
@@ -14,6 +15,10 @@
   const photoPreview = dialog.querySelector('#application-photo-preview');
   const clearPhoto = dialog.querySelector('#application-clear-photo');
   let step = 0;
+  const live = () => Boolean(window.EDKForm?.enabled());
+  const send = dialog.querySelector('#application-send');
+  let requestId = crypto.randomUUID();
+  let sending = false;
   let photoUrls = [];
   const fields = [
     {name: 'email', label: 'E-posta', step: 0, kind: 'email'},
@@ -40,7 +45,12 @@
   }
   function error(field) {
     if (field.optional) return '';
-    if (field.kind === 'file') return photo.files.length ? '' : 'Profil fotoğrafınızı seçin.';
+    if (field.kind === 'file') {
+      if (!photo.files.length) return 'Profil fotoğrafınızı seçin.';
+      if (!photo.files[0].type.startsWith('image/')) return 'Fotoğraf olarak bir görsel dosyası (JPG veya PNG) seçin.';
+      if (photo.files[0].size > 15 * 1024 * 1024) return 'Fotoğraf en fazla 15 MB olabilir.';
+      return '';
+    }
     if (!value(field)) {
       if (field.name === 'education') return 'Eğitim kademenizi seçin.';
       if (field.name === 'category') return 'Bir kategori seçin.';
@@ -118,7 +128,7 @@
     }
     summary.hidden = true;
     summary.textContent = '';
-    result.textContent = 'Alanlar kontrol edildi. Bu bir önizlemedir; başvurunuz gönderilmedi.';
+    result.textContent = live() ? 'Alanlar tamam. “Başvuruyu gönder” ile başvurunuzu iletebilirsiniz.' : 'Alanlar kontrol edildi. Bu bir önizlemedir; başvurunuz gönderilmedi.';
     result.hidden = false;
     result.scrollIntoView({block: 'nearest'});
   }
@@ -136,7 +146,7 @@
       const note = document.createElement('small');
       item.className = 'application-photo-item';
       caption.textContent = file.name;
-      note.textContent = 'Yalnızca yerel seçim · Dosya yüklenmedi';
+      note.textContent = live() ? 'Başvuruyla birlikte gönderilecek' : 'Yalnızca yerel seçim · Dosya yüklenmedi';
       caption.append(note);
       // Preview raster images via an in-memory blob URL. No file is uploaded.
       if (/^image\/(png|jpeg|webp|gif|avif)$/.test(file.type)) {
@@ -187,4 +197,68 @@
     photo.focus();
   });
   window.addEventListener('pagehide', releasePhotoUrls);
+
+  // Gerçek gönderim (yalnızca form-config.js içinde adres varsa)
+  function collect() {
+    const data = new FormData(form);
+    const fieldsOut = {};
+    ['email', 'fullName', 'city', 'institution', 'biography', 'jobTitle', 'education', 'category', 'presentationTitle', 'description', 'social']
+      .forEach(name => { fieldsOut[name] = String(data.get(name) || '').trim(); });
+    fieldsOut.consent = data.get('approval') === 'Onaylıyorum';
+    return fieldsOut;
+  }
+  function showSuccess(name, email) {
+    let success = dialog.querySelector('.application-success');
+    if (!success) {
+      success = document.createElement('div');
+      success.className = 'participant-success application-success';
+      success.tabIndex = -1;
+      success.innerHTML = '<div class="ok" aria-hidden="true">✓</div><h3>Başvurunuz alındı!</h3><p><strong data-name></strong>, sunum ve atölye başvurunuz bize ulaştı.</p><p>Değerlendirme sonrasında <strong data-email></strong> adresinden sizinle iletişime geçeceğiz.</p>';
+      body.after(success);
+    }
+    success.querySelector('[data-name]').textContent = name;
+    success.querySelector('[data-email]').textContent = email;
+    [body, dialog.querySelector('.application-steps'), dialog.querySelector('.application-actions')].forEach(element => { element.hidden = true; });
+    success.hidden = false;
+    success.focus();
+  }
+  function resetAfterSuccess() {
+    const success = dialog.querySelector('.application-success');
+    if (!success || success.hidden) return;
+    form.reset();
+    photo.value = '';
+    previewPhotos();
+    fields.forEach(field => setError(field, ''));
+    success.hidden = true;
+    [body, dialog.querySelector('.application-steps'), dialog.querySelector('.application-actions')].forEach(element => { element.hidden = false; });
+    result.hidden = true;
+    showStep(0, false);
+  }
+  if (live()) {
+    send.disabled = false;
+    send.addEventListener('click', async () => {
+      if (sending) return;
+      checkAll();
+      if (result.hidden) return;
+      sending = true;
+      send.disabled = true;
+      send.textContent = 'Gönderiliyor…';
+      result.textContent = 'Başvurunuz gönderiliyor, lütfen bekleyin…';
+      try {
+        const fieldsOut = collect();
+        const photoData = await window.EDKForm.preparePhoto(photo.files[0]);
+        await window.EDKForm.send('application', fieldsOut, {requestId, photo: photoData, website: form.elements.namedItem('website')?.value});
+        requestId = crypto.randomUUID();
+        showSuccess(fieldsOut.fullName, fieldsOut.email);
+      } catch (problem) {
+        result.textContent = problem?.message || 'Gönderim tamamlanamadı. Lütfen biraz sonra tekrar deneyin.';
+        result.hidden = false;
+      } finally {
+        sending = false;
+        send.disabled = false;
+        send.textContent = 'Başvuruyu gönder';
+      }
+    });
+    document.querySelectorAll('[data-panel="apply"]').forEach(button => button.addEventListener('click', resetAfterSuccess));
+  }
 })();

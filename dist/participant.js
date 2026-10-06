@@ -1,5 +1,5 @@
-/* Katılımcı (izleyici) kayıt formu. Önizleme: veriler bu sayfada kalır, hiçbir yere gönderilmez.
-   Gönderim, aşağıdaki sendRegistration() içine yazılım ekibi tarafından bağlanacak (bkz. BASVURU-ENTEGRASYON.md). */
+/* Katılımcı (izleyici) kayıt formu. Gönderim adresi form-config.js içinde;
+   adres boşsa form önizleme modunda kalır (bkz. KURULUM-FORMLAR.md). */
 (() => {
   const dialog = document.querySelector('#participant-dialog');
   if (!dialog) return;
@@ -52,8 +52,13 @@
       submittedAt: new Date().toISOString()
     };
   }
-  // YAZILIM EKİBİ: Gerçek gönderim buraya. Başarılıysa resolve, hata varsa throw etmeli.
+  // form-config.js içinde adres varsa Google E-Tablolar'a gönderir; yoksa önizleme olarak kalır.
+  let requestId = crypto.randomUUID();
   async function sendRegistration(registration) {
+    if (!window.EDKForm?.enabled()) return registration;
+    const {submittedAt, ...fields} = registration;
+    await window.EDKForm.send('participant', fields, {requestId, website: form.elements.namedItem('website')?.value});
+    requestId = crypto.randomUUID();
     return registration;
   }
   function show(name) {
@@ -77,6 +82,8 @@
     }
     summary.hidden = true;
     submit.disabled = true;
+    const label = submit.innerHTML;
+    if (window.EDKForm?.enabled()) submit.textContent = 'Gönderiliyor…';
     try {
       const registration = collect();
       await sendRegistration(registration);
@@ -84,11 +91,13 @@
       dialog.querySelector('#participant-success-email').textContent = registration.email;
       show('success');
       dialog.querySelector('.participant-success').focus();
-    } catch {
-      summary.textContent = 'Kaydın şu anda alınamadı. Lütfen biraz sonra tekrar dene.';
+    } catch (problem) {
+      summary.textContent = problem?.message || 'Kaydın şu anda alınamadı. Lütfen biraz sonra tekrar dene.';
       summary.hidden = false;
+      summary.scrollIntoView({block: 'nearest'});
     } finally {
       submit.disabled = false;
+      submit.innerHTML = label;
     }
   });
   form.addEventListener('change', event => {

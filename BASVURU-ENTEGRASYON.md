@@ -1,5 +1,7 @@
 # Başvuru formları: yazılım ekibi için teslim notu
 
+> **Güncel durum (6 Ekim 2026):** Gönderim artık hazır. İki form Google Apps Script üzerinden Google E-Tablolar'a bağlanıyor. Kurulum için [KURULUM-FORMLAR.md](KURULUM-FORMLAR.md), Google tarafının kodu için [google-apps-script/Kod.gs](google-apps-script/Kod.gs) dosyasına bakın; adres `dist/form-config.js` içine yazılır. Aşağıdaki notlar ilk teslimden kalmadır; alan listeleri hâlâ geçerlidir.
+
 Sitede iki ayrı form var. Arayüz ve tarayıcı tarafı doğrulama hazır; **verilerin bir yere kaydedilmesi henüz bağlı değil.** Bu not, gönderimi bağlamak için gereken her şeyi özetler.
 
 | | Katılımcı Kaydı (izleyici) | Sunum ve Atölye Başvurusu |
