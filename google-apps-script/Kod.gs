@@ -14,6 +14,8 @@ const AYARLAR = {
   BILDIRIM_EPOSTASI: '',
   // true yapılırsa başvuru yapan kişiye otomatik "başvurunuz alındı" e-postası gider.
   ONAY_EPOSTASI_GONDER: true,
+  // İletişim formundan gelen mesajların iletileceği adres. Boşsa mesajlar yalnızca tabloya yazılır.
+  ILETISIM_EPOSTASI: 'bilgi@egitimdedegisim.com',
   // Katılımcı kontenjanı. 0 = sınırsız. Dolunca yeni kayıt kabul edilmez.
   KATILIMCI_KONTENJANI: 0,
   // Fotoğrafların kaydedileceği Drive klasörünün adı.
@@ -71,6 +73,15 @@ const SAYFALAR = {
       ['requestId', 'Başvuru kodu'], ['durum', 'Durum'], ['not', 'Değerlendirme notu']
     ],
     zorunlu: ['fullName', 'email', 'city', 'institution', 'jobTitle', 'education', 'category', 'presentationTitle', 'description', 'biography']
+  },
+  contact: {
+    ad: 'İletişim Mesajları',
+    sutunlar: [
+      ['submittedAt', 'Gönderim zamanı'], ['fullName', 'Ad Soyad'], ['email', 'E-posta'], ['subject', 'Konu'],
+      ['message', 'Mesaj'], ['requestId', 'Mesaj kodu'], ['durum', 'Durum'], ['not', 'Not']
+    ],
+    zorunlu: ['fullName', 'email', 'message'],
+    onaySart: false
   }
 };
 
@@ -117,7 +128,7 @@ function doPost(e) {
     const eksik = tanim.zorunlu.filter(ad => !metin(alanlar[ad]));
     if (eksik.length) return json({ ok: false, code: 'MISSING', fields: eksik });
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(metin(alanlar.email))) return json({ ok: false, code: 'BAD_EMAIL' });
-    if (alanlar.consent !== true) return json({ ok: false, code: 'NO_CONSENT' });
+    if (tanim.onaySart !== false && alanlar.consent !== true) return json({ ok: false, code: 'NO_CONSENT' });
 
     const requestId = metin(veri.requestId).slice(0, 80) || Utilities.getUuid();
     const tablo = tabloyuAc();
@@ -147,7 +158,7 @@ function doPost(e) {
       if (ad === 'submittedAt') return new Date();
       if (ad === 'requestId') return requestId;
       if (ad === 'photoUrl') return photoUrl;
-      if (ad === 'durum') return 'Beklemede';
+      if (ad === 'durum') return tur === 'contact' ? 'Yeni' : 'Beklemede';
       if (ad === 'not') return '';
       const deger = alanlar[ad];
       if (deger === true) return 'Evet';
@@ -180,9 +191,10 @@ function sayfaHazirla(tablo, tur) {
     sayfa.appendRow(tanim.sutunlar.map(s => s[1]));
     sayfa.getRange(1, 1, 1, tanim.sutunlar.length).setFontWeight('bold').setBackground('#dbe6ff');
     sayfa.setFrozenRows(1);
-    if (tur === 'application') {
+    if (tur === 'application' || tur === 'contact') {
       const durum = tanim.sutunlar.findIndex(s => s[0] === 'durum') + 1;
-      const kural = SpreadsheetApp.newDataValidation().requireValueInList(['Beklemede', 'Kabul', 'Ret'], true).build();
+      const secenekler = tur === 'contact' ? ['Yeni', 'Yanıtlandı'] : ['Beklemede', 'Kabul', 'Ret'];
+      const kural = SpreadsheetApp.newDataValidation().requireValueInList(secenekler, true).build();
       sayfa.getRange(2, durum, 1000, 1).setDataValidation(kural);
     }
   }
@@ -217,6 +229,7 @@ function fotoKaydet(foto, requestId, adSoyad) {
 }
 
 function epostalar(tur, alanlar, requestId) {
+  if (tur === 'contact') { iletisimIlet(alanlar, requestId); return false; }
   const baslik = tur === 'participant' ? 'Katılımcı Kaydı' : 'Sunum ve Atölye Başvurusu';
   let onayGitti = false;
   try {
@@ -264,6 +277,25 @@ function gonderenKontrol() {
   Logger.log(takmaAdlar.map(a => a.toLowerCase()).indexOf(AYARLAR.GONDEREN_ADRESI.toLowerCase()) !== -1
     ? 'Tamam: e-postalar ' + AYARLAR.GONDEREN_ADRESI + ' adresinden gidecek.'
     : 'Henüz tanımlı değil: e-postalar kurulum hesabından gidecek, yanıtlar ' + AYARLAR.YANIT_ADRESI + ' adresine düşecek.');
+}
+
+/** İletişim mesajını ekibe iletir; "Yanıtla" doğrudan mesajı gönderen kişiye gider. */
+function iletisimIlet(alanlar, requestId) {
+  if (!AYARLAR.ILETISIM_EPOSTASI) return;
+  try {
+    const satirlar = [['Ad Soyad', kac(alanlar.fullName)], ['E-posta', kac(alanlar.email)], ['Konu', kac(alanlar.subject) || '—'], ['Mesaj', kac(alanlar.message).replace(/\n/g, '<br>')]];
+    MailApp.sendEmail({
+      to: AYARLAR.ILETISIM_EPOSTASI,
+      subject: `Siteden mesaj: ${metin(alanlar.subject) || metin(alanlar.fullName)}`,
+      name: `${metin(alanlar.fullName)} (EDK web sitesi)`,
+      replyTo: metin(alanlar.email),
+      body: `${metin(alanlar.fullName)} <${metin(alanlar.email)}>\nKonu: ${metin(alanlar.subject)}\n\n${metin(alanlar.message)}`,
+      htmlBody: sablon('Siteden yeni mesaj', 'İletişim formundan yeni bir mesaj geldi. Bu e-postayı yanıtladığınızda yanıtınız doğrudan gönderen kişiye gider.',
+        kutu('Mesaj', satirlar) + `<p style="margin:0 0 24px;font-size:13px;color:#6b7aa6">Kod: ${kac(requestId)}</p>` + dugme(tabloyuAc().getUrl(), 'Tabloyu aç'))
+    });
+  } catch (hata) {
+    console.error(hata);
+  }
 }
 
 function kac(deger) {

@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&display=swap">
-  <link rel="stylesheet" href="site.css?v=gece-mavisi-12">
+  <link rel="stylesheet" href="site.css?v=gece-mavisi-14">
   <link rel="stylesheet" href="application.css?v=application-preview-4">
 </head>
 <body>
@@ -322,17 +322,29 @@
 
   <section class="contact" id="iletisim" aria-labelledby="contact-title">
     <div class="shell">
-      <div class="sec-head"><div><p class="eyebrow">İletişim</p><h2 id="contact-title">Bize ulaşın</h2></div></div>
-      <div class="contact-grid">
-        <div class="contact-card">
-          <span class="contact-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 11-8 11S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
-          <h3>Organizatör adresi</h3>
-          <address><p>Zümrütevler, Fener Sk. No:7 D:1,<br>34692 Maltepe/İstanbul</p><a class="link" href="https://www.google.com/maps/place//data=!4m2!3m1!1s0x14cac7d6555b5153:0x41fb0f63ddc747a5" target="_blank" rel="noopener noreferrer">Haritada gör <span aria-hidden="true">↗</span></a></address>
-        </div>
-        <div class="contact-card">
-          <span class="contact-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2A19.8 19.8 0 0 1 3.1 5.2 2 2 0 0 1 5.1 3h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.6a2 2 0 0 1-.4 2.1L9.1 10.7a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.8.3 1.7.6 2.6.7a2 2 0 0 1 .9 1.2Z"/></svg></span>
-          <h3>Doğrudan iletişim</h3>
-          <address><a href="tel:+905333579072">0533 357 90 72</a><a href="mailto:bilgi@egitimdedegisim.com">bilgi@egitimdedegisim.com</a></address>
+      <div class="sec-head"><div><p class="eyebrow">İletişim</p><h2 id="contact-title">Bize <span class="grad">ulaşın</span></h2></div><p>Sorularınız, iş birliği ve sponsorluk talepleriniz için bize yazın.</p></div>
+      <div class="contact-layout">
+        <form class="contact-form" id="contact-form" novalidate>
+          <input class="hp-field" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="cf-row">
+            <div class="cf-field"><label for="cf-name">Ad Soyad <span aria-hidden="true">*</span></label><input id="cf-name" name="fullName" type="text" autocomplete="name" required aria-describedby="cf-name-error"><p class="cf-error" id="cf-name-error" hidden></p></div>
+            <div class="cf-field"><label for="cf-email">E-posta <span aria-hidden="true">*</span></label><input id="cf-email" name="email" type="email" autocomplete="email" required aria-describedby="cf-email-error"><p class="cf-error" id="cf-email-error" hidden></p></div>
+          </div>
+          <div class="cf-field"><label for="cf-subject">Konu</label><input id="cf-subject" name="subject" type="text"></div>
+          <div class="cf-field"><label for="cf-message">Mesajınız <span aria-hidden="true">*</span></label><textarea id="cf-message" name="message" rows="6" required aria-describedby="cf-message-error"></textarea><p class="cf-error" id="cf-message-error" hidden></p></div>
+          <button class="btn btn-primary btn-lg cf-submit" type="submit">Mesaj Gönder</button>
+          <p class="cf-status" id="cf-status" role="status" aria-live="polite" hidden></p>
+          <p class="cf-note">Bilgileriniz yalnızca size dönüş yapmak için kullanılır. <a href="http://egitimdeinovasyon.org/hakkimizda/kvkk/" target="_blank" rel="noopener noreferrer">KVKK aydınlatma metni</a></p>
+        </form>
+        <div class="contact-side">
+          <div class="contact-info">
+            <div class="ci-item"><span class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 11-8 11S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></span><div><p class="ci-label">Adres</p><address>Zümrütevler, Fener Sk. No:7 D:1,<br>34692 Maltepe / İstanbul</address></div></div>
+            <div class="ci-item"><span class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2A19.8 19.8 0 0 1 3.1 5.2 2 2 0 0 1 5.1 3h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.6a2 2 0 0 1-.4 2.1L9.1 10.7a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.8.3 1.7.6 2.6.7a2 2 0 0 1 .9 1.2Z"/></svg></span><div><p class="ci-label">Telefon</p><a href="tel:+905333579072">0533 357 90 72</a></div></div>
+            <div class="ci-item"><span class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></svg></span><div><p class="ci-label">E-posta</p><a href="mailto:bilgi@egitimdedegisim.com">bilgi@egitimdedegisim.com</a></div></div>
+          </div>
+          <div class="contact-map">
+            <iframe title="Adres haritası" src="https://maps.google.com/maps?q=Z%C3%BCmr%C3%BCtevler%2C+Fener+Sk.+No%3A7%2C+34692+Maltepe%2F%C4%B0stanbul&amp;z=16&amp;hl=tr&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
         </div>
       </div>
     </div>
@@ -607,5 +619,6 @@
 <script src="form-submit.js?v=1"></script>
 <script src="application.js?v=application-live-2"></script>
 <script src="participant.js?v=participant-live-2"></script>
+<script src="contact.js?v=1"></script>
 </body>
 </html>
