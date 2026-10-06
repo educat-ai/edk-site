@@ -176,7 +176,7 @@ button.pic:hover .pic-cta,button.pic:focus-visible .pic-cta{opacity:1;transform:
 .venue{padding:120px 0 110px;text-align:center;overflow:hidden}
 .venue h2{font-size:clamp(32px,3.6vw,52px);margin:18px auto 0;max-width:900px}
 .venue-band{position:relative;margin:48px 0 0;isolation:isolate}
-.venue-band img{width:100%;height:clamp(340px,40vw,640px);object-fit:cover;object-position:50% 58%;filter:saturate(.9) contrast(1.05)}
+.venue-band img{width:100%;height:clamp(340px,40vw,640px);object-fit:cover;object-position:50% 22%;filter:saturate(.9) contrast(1.05)}
 /* hafif mavi ton: fotoğrafın doğal renkleri korunur */
 .venue-band::before{content:"";position:absolute;inset:0;z-index:1;background:#1f5bff;mix-blend-mode:soft-light;opacity:.55;pointer-events:none}
 /* üst/alt ve yanlardan koyu zemine geçiş */
