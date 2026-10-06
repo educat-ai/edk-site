@@ -262,17 +262,46 @@ function gonder(e) {
   const secenek = { name: e.name, htmlBody: e.htmlBody };
   if (AYARLAR.YANIT_ADRESI) secenek.replyTo = AYARLAR.YANIT_ADRESI;
   const adres = AYARLAR.GONDEREN_ADRESI;
-  if (adres && GmailApp.getAliases().map(a => a.toLowerCase()).indexOf(adres.toLowerCase()) !== -1) {
-    secenek.from = adres;
-    GmailApp.sendEmail(e.to, e.subject, e.body, secenek);
-  } else {
-    MailApp.sendEmail(Object.assign({ to: e.to, subject: e.subject, body: e.body }, secenek));
+  if (adres && takmaAdVar(adres)) {
+    try {
+      GmailApp.sendEmail(e.to, e.subject, e.body, Object.assign({ from: adres }, secenek));
+      return;
+    } catch (hata) {
+      // Gmail sınırı dolduysa ya da izin yoksa aşağıda normal yoldan gönderilir.
+      console.error(hata);
+    }
   }
+  MailApp.sendEmail(Object.assign({ to: e.to, subject: e.subject, body: e.body }, secenek));
 }
 
-/** Kontrol: gönderen adresinin Gmail'de tanımlı olup olmadığını günlüğe yazar. */
+/** Gönderen adresi Gmail'de tanımlı mı? Sonuç 6 saat saklanır; Gmail'e her gönderimde sorulmaz. */
+function takmaAdVar(adres) {
+  const onbellek = CacheService.getScriptCache();
+  const kayitli = onbellek.get('takmaAd');
+  if (kayitli !== null) return kayitli === '1';
+  let var_ = false;
+  try {
+    var_ = GmailApp.getAliases().map(a => a.toLowerCase()).indexOf(adres.toLowerCase()) !== -1;
+  } catch (hata) {
+    console.error(hata);
+    onbellek.put('takmaAd', '0', 600); // Gmail'e ulaşılamadı: 10 dk sonra tekrar dene.
+    return false;
+  }
+  onbellek.put('takmaAd', var_ ? '1' : '0', 21600);
+  return var_;
+}
+
+/** Kontrol: gönderen adresini ve kalan günlük e-posta hakkını günlüğe yazar. */
 function gonderenKontrol() {
-  const takmaAdlar = GmailApp.getAliases();
+  CacheService.getScriptCache().remove('takmaAd');
+  Logger.log('Bugün kalan e-posta gönderim hakkı: ' + MailApp.getRemainingDailyQuota());
+  let takmaAdlar;
+  try {
+    takmaAdlar = GmailApp.getAliases();
+  } catch (hata) {
+    Logger.log('Gmail\'e şu an ulaşılamıyor (' + hata.message + '). E-postalar kurulum hesabından gidecek.');
+    return;
+  }
   Logger.log('Gmail\'de tanımlı gönderen adresleri: ' + (takmaAdlar.join(', ') || '(yok)'));
   Logger.log(takmaAdlar.map(a => a.toLowerCase()).indexOf(AYARLAR.GONDEREN_ADRESI.toLowerCase()) !== -1
     ? 'Tamam: e-postalar ' + AYARLAR.GONDEREN_ADRESI + ' adresinden gidecek.'
