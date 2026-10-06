@@ -207,17 +207,18 @@
     fieldsOut.consent = data.get('approval') === 'Onaylıyorum';
     return fieldsOut;
   }
-  function showSuccess(name, email) {
+  function showSuccess(name, email, mailed) {
     let success = dialog.querySelector('.application-success');
     if (!success) {
       success = document.createElement('div');
       success.className = 'participant-success application-success';
       success.tabIndex = -1;
-      success.innerHTML = '<div class="ok" aria-hidden="true">✓</div><h3>Başvurunuz alındı!</h3><p><strong data-name></strong>, sunum ve atölye başvurunuz bize ulaştı.</p><p>Değerlendirme sonrasında <strong data-email></strong> adresinden sizinle iletişime geçeceğiz.</p>';
+      success.innerHTML = '<div class="ok" aria-hidden="true">✓</div><h3>Başvurunuz alındı!</h3><p><strong data-name></strong>, sunum ve atölye başvurunuz bize ulaştı.</p><p>Değerlendirme sonrasında <strong data-email></strong> adresinden sizinle iletişime geçeceğiz.</p><p data-mailed hidden>Başvurunuzun özeti bu adrese e-posta olarak gönderildi.</p>';
       body.after(success);
     }
     success.querySelector('[data-name]').textContent = name;
     success.querySelector('[data-email]').textContent = email;
+    success.querySelector('[data-mailed]').hidden = !mailed;
     [body, dialog.querySelector('.application-steps'), dialog.querySelector('.application-actions')].forEach(element => { element.hidden = true; });
     success.hidden = false;
     success.focus();
@@ -247,9 +248,9 @@
       try {
         const fieldsOut = collect();
         const photoData = await window.EDKForm.preparePhoto(photo.files[0]);
-        await window.EDKForm.send('application', fieldsOut, {requestId, photo: photoData, website: form.elements.namedItem('website')?.value});
+        const sent = await window.EDKForm.send('application', fieldsOut, {requestId, photo: photoData, website: form.elements.namedItem('website')?.value});
         requestId = crypto.randomUUID();
-        showSuccess(fieldsOut.fullName, fieldsOut.email);
+        showSuccess(fieldsOut.fullName, fieldsOut.email, sent?.mailed);
       } catch (problem) {
         result.textContent = problem?.message || 'Gönderim tamamlanamadı. Lütfen biraz sonra tekrar deneyin.';
         result.hidden = false;

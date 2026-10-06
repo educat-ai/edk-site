@@ -55,11 +55,11 @@
   // form-config.js içinde adres varsa Google E-Tablolar'a gönderir; yoksa önizleme olarak kalır.
   let requestId = crypto.randomUUID();
   async function sendRegistration(registration) {
-    if (!window.EDKForm?.enabled()) return registration;
+    if (!window.EDKForm?.enabled()) return {};
     const {submittedAt, ...fields} = registration;
-    await window.EDKForm.send('participant', fields, {requestId, website: form.elements.namedItem('website')?.value});
+    const result = await window.EDKForm.send('participant', fields, {requestId, website: form.elements.namedItem('website')?.value});
     requestId = crypto.randomUUID();
-    return registration;
+    return result;
   }
   function show(name) {
     ['form', 'success'].forEach(view => views(view).forEach(element => { element.hidden = view !== name; }));
@@ -86,9 +86,11 @@
     if (window.EDKForm?.enabled()) submit.textContent = 'Gönderiliyor…';
     try {
       const registration = collect();
-      await sendRegistration(registration);
+      const result = await sendRegistration(registration);
       dialog.querySelector('#participant-success-name').textContent = registration.fullName;
       dialog.querySelector('#participant-success-email').textContent = registration.email;
+      const mailNote = dialog.querySelector('#participant-success-mail');
+      if (mailNote) mailNote.hidden = !result?.mailed;
       show('success');
       dialog.querySelector('.participant-success').focus();
     } catch (problem) {

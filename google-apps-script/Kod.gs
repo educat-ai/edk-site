@@ -18,7 +18,32 @@ const AYARLAR = {
   KATILIMCI_KONTENJANI: 0,
   // Fotoğrafların kaydedileceği Drive klasörünün adı.
   FOTO_KLASORU: 'EDK 2026 Başvuru Fotoğrafları',
+  // E-postalarda görünen gönderen adı ve "Yanıtla" denince gidecek adres.
+  GONDEREN_ADI: 'Eğitimde Değişim Konferansı',
+  YANIT_ADRESI: 'destek@educat.com.tr',
   KONFERANS: '11. Eğitimde Değişim Konferansı'
+};
+
+// E-postada görünen etkinlik bilgileri. Değişirse buradan güncelleyin.
+const ETKINLIK = {
+  tarih: '19 Aralık 2026, Cumartesi',
+  kayit: '08.00 – 09.00 · Kayıt ve karşılama',
+  yer: 'İstinye Üniversitesi Vadi Kampüsü',
+  sehir: 'İstanbul',
+  harita: 'https://www.google.com/maps/search/?api=1&query=Istinye+Universitesi+Vadi+Ana+Kampus',
+  site: 'https://educat-ai.github.io/edk-site/',
+  logo: 'https://educat-ai.github.io/edk-site/assets/eposta/edk-logo.png',
+  telefon: '0533 357 90 72',
+  eposta: 'destek@educat.com.tr',
+  program: [
+    ['08.00 – 09.00', 'Kayıt ve karşılama'],
+    ['09.00 – 11.00', 'Açılış ve keynote konuşmaları'],
+    ['11.15 – 13.15', 'Paralel atölyeler'],
+    ['13.15 – 14.15', 'Öğle arası ve networking'],
+    ['14.15 – 15.00', '1. Oturum'],
+    ['15.15 – 16.00', '2. Oturum'],
+    ['16.15 – 16.45', 'Kapanış']
+  ]
 };
 // ====================================================
 
@@ -129,8 +154,8 @@ function doPost(e) {
     });
     sayfa.appendRow(satir);
 
-    epostalar(tur, alanlar, requestId);
-    return json({ ok: true, requestId: requestId });
+    const onayGitti = epostalar(tur, alanlar, requestId);
+    return json({ ok: true, requestId: requestId, mailed: onayGitti });
   } catch (hata) {
     console.error(hata);
     return json({ ok: false, code: 'SERVER_ERROR' });
@@ -190,21 +215,117 @@ function fotoKaydet(foto, requestId, adSoyad) {
 
 function epostalar(tur, alanlar, requestId) {
   const baslik = tur === 'participant' ? 'Katılımcı Kaydı' : 'Sunum ve Atölye Başvurusu';
+  let onayGitti = false;
   try {
     if (AYARLAR.BILDIRIM_EPOSTASI) {
-      MailApp.sendEmail(AYARLAR.BILDIRIM_EPOSTASI, `Yeni ${baslik}: ${metin(alanlar.fullName)}`,
-        `${AYARLAR.KONFERANS} için yeni bir ${baslik.toLowerCase()} geldi.\n\nAd Soyad: ${metin(alanlar.fullName)}\nE-posta: ${metin(alanlar.email)}\nKod: ${requestId}\n\nTablo: ${tabloyuAc().getUrl()}`);
+      const satirlar = SAYFALAR[tur].sutunlar
+        .filter(([ad]) => alanlar[ad] !== undefined && alanlar[ad] !== '' && ad !== 'consent')
+        .map(([ad, etiket]) => [etiket, Array.isArray(alanlar[ad]) ? alanlar[ad].join(', ') : alanlar[ad] === true ? 'Evet' : alanlar[ad] === false ? 'Hayır' : alanlar[ad]]);
+      MailApp.sendEmail({
+        to: AYARLAR.BILDIRIM_EPOSTASI,
+        subject: `Yeni ${baslik}: ${metin(alanlar.fullName)}`,
+        name: AYARLAR.GONDEREN_ADI,
+        body: satirlar.map(([k, v]) => `${k}: ${v}`).join('\n') + `\n\nTablo: ${tabloyuAc().getUrl()}`,
+        htmlBody: ekipEpostasi(baslik, satirlar, requestId)
+      });
     }
     if (AYARLAR.ONAY_EPOSTASI_GONDER) {
-      const govde = tur === 'participant'
-        ? `Merhaba ${metin(alanlar.fullName)},\n\n${AYARLAR.KONFERANS} için kaydınız alındı. 19 Aralık 2026'da İstinye Üniversitesi Vadi Kampüsünde görüşmek üzere.\n\nKayıt kodunuz: ${requestId}`
-        : `Merhaba ${metin(alanlar.fullName)},\n\n${AYARLAR.KONFERANS} için sunum ve atölye başvurunuz alındı. Değerlendirme sonrasında sizinle iletişime geçeceğiz.\n\nBaşvuru kodunuz: ${requestId}`;
-      MailApp.sendEmail(metin(alanlar.email), `${AYARLAR.KONFERANS} · ${baslik}`, govde);
+      const posta = onayEpostasi(tur, alanlar, requestId);
+      const secenek = { to: metin(alanlar.email), subject: posta.konu, name: AYARLAR.GONDEREN_ADI, body: posta.metin, htmlBody: posta.html };
+      if (AYARLAR.YANIT_ADRESI) secenek.replyTo = AYARLAR.YANIT_ADRESI;
+      MailApp.sendEmail(secenek);
+      onayGitti = true;
     }
   } catch (hata) {
     // E-posta gönderilemese de kayıt tabloya yazıldığı için başvuru başarılı sayılır.
     console.error(hata);
   }
+  return onayGitti;
+}
+
+function kac(deger) {
+  return metin(deger).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+}
+
+function onayEpostasi(tur, alanlar, requestId) {
+  const ad = kac(alanlar.fullName);
+  const katilimci = tur === 'participant';
+  const konu = katilimci ? `Kaydınız alındı · ${AYARLAR.KONFERANS}` : `Başvurunuz alındı · ${AYARLAR.KONFERANS}`;
+  const ust = katilimci ? 'Kaydınız alındı!' : 'Başvurunuz alındı!';
+  const giris = katilimci
+    ? `Merhaba ${ad},<br>${AYARLAR.KONFERANS} için katılımcı kaydınız tamamlandı. Sizi aramızda görmek için sabırsızlanıyoruz.`
+    : `Merhaba ${ad},<br>${AYARLAR.KONFERANS} için sunum ve atölye başvurunuz bize ulaştı. Paylaşmak istediğiniz deneyim için teşekkür ederiz.`;
+  const ozet = katilimci ? '' : kutu('Başvurunuz', [
+    ['Sunum başlığı', kac(alanlar.presentationTitle)], ['Tema', kac(alanlar.category)]
+  ]) + `<p style="margin:0 0 24px;font-size:15px;line-height:1.6;color:#33446e">Başvurular organizasyon kurulu tarafından değerlendirilecek. Sonucu bu e-posta adresine bildireceğiz.</p>`;
+  const html = sablon(ust, giris,
+    ozet +
+    kutu('Etkinlik bilgileri', [
+      ['Tarih', ETKINLIK.tarih], ['Kayıt', ETKINLIK.kayit],
+      ['Yer', `${ETKINLIK.yer}<br><span style="color:#6b7aa6">${ETKINLIK.sehir}</span> · <a href="${ETKINLIK.harita}" style="color:#2f6bff;text-decoration:none">Haritada gör →</a>`]
+    ]) +
+    (katilimci ? programTablosu() : '') +
+    `<p style="margin:0 0 6px;font-size:13px;color:#6b7aa6">${katilimci ? 'Kayıt kodunuz' : 'Başvuru kodunuz'}</p>
+     <p style="margin:0 0 28px;font-family:Menlo,Consolas,monospace;font-size:13px;color:#071233;background:#eef3ff;border-radius:8px;padding:10px 12px;word-break:break-all">${kac(requestId)}</p>` +
+    dugme(ETKINLIK.site, 'Konferans sayfasını ziyaret et'));
+  const duz = `${katilimci ? 'Kaydınız alındı' : 'Başvurunuz alındı'}\n\nMerhaba ${metin(alanlar.fullName)},\n` +
+    (katilimci ? `${AYARLAR.KONFERANS} için katılımcı kaydınız tamamlandı.` : `${AYARLAR.KONFERANS} için sunum ve atölye başvurunuz bize ulaştı. Sonucu bu e-posta adresine bildireceğiz.`) +
+    `\n\nTarih: ${ETKINLIK.tarih}\nKayıt: ${ETKINLIK.kayit}\nYer: ${ETKINLIK.yer}, ${ETKINLIK.sehir}\nHarita: ${ETKINLIK.harita}\n\n` +
+    (katilimci ? 'Günün akışı:\n' + ETKINLIK.program.map(([s, a]) => `${s}  ${a}`).join('\n') + '\n\n' : '') +
+    `Kod: ${requestId}\n\n${ETKINLIK.site}\nİletişim: ${ETKINLIK.telefon} · ${ETKINLIK.eposta}`;
+  return { konu, html, metin: duz };
+}
+
+function ekipEpostasi(baslik, satirlar, requestId) {
+  return sablon(`Yeni ${baslik.toLowerCase()}`, `Sitedeki formdan yeni bir ${baslik.toLowerCase()} geldi.`,
+    kutu('Gönderilen bilgiler', satirlar.map(([k, v]) => [kac(k), kac(v).replace(/\n/g, '<br>')])) +
+    `<p style="margin:0 0 24px;font-size:13px;color:#6b7aa6">Kod: ${kac(requestId)}</p>` +
+    dugme(tabloyuAc().getUrl(), 'Tabloyu aç'));
+}
+
+function kutu(baslik, satirlar) {
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 24px;border:1px solid #dbe4fb;border-radius:14px;border-collapse:separate">
+    <tr><td style="padding:16px 20px 4px;font-size:12px;letter-spacing:1.6px;text-transform:uppercase;color:#2f6bff;font-weight:bold">${baslik}</td></tr>
+    ${satirlar.map(([k, v]) => `<tr><td style="padding:10px 20px;border-top:1px solid #eef2fd"><div style="font-size:12px;color:#6b7aa6;margin-bottom:3px">${k}</div><div style="font-size:15px;line-height:1.5;color:#071233">${v}</div></td></tr>`).join('')}
+    <tr><td style="height:8px;line-height:8px;font-size:0">&nbsp;</td></tr>
+  </table>`;
+}
+
+function programTablosu() {
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 24px;border:1px solid #dbe4fb;border-radius:14px;border-collapse:separate">
+    <tr><td colspan="2" style="padding:16px 20px 8px;font-size:12px;letter-spacing:1.6px;text-transform:uppercase;color:#2f6bff;font-weight:bold">Günün akışı</td></tr>
+    ${ETKINLIK.program.map(([saat, olay]) => `<tr><td style="padding:8px 0 8px 20px;width:112px;font-size:14px;color:#071233;font-weight:bold;white-space:nowrap;vertical-align:top">${saat}</td><td style="padding:8px 20px 8px 8px;font-size:14px;color:#33446e">${olay}</td></tr>`).join('')}
+    <tr><td colspan="2" style="padding:6px 20px 14px;font-size:12px;color:#6b7aa6">Program değişebilir; güncel akış sitemizde.</td></tr>
+  </table>`;
+}
+
+function dugme(adres, yazi) {
+  return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 8px"><tr><td style="border-radius:999px;background:#2f6bff">
+    <a href="${adres}" style="display:inline-block;padding:14px 26px;font-size:15px;font-weight:bold;color:#ffffff;text-decoration:none;border-radius:999px">${yazi} →</a>
+  </td></tr></table>`;
+}
+
+function sablon(ust, giris, icerik) {
+  return `<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"></head>
+<body style="margin:0;padding:0;background:#eef2fb">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#eef2fb"><tr><td align="center" style="padding:28px 12px">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:#ffffff;border-radius:20px;overflow:hidden;font-family:'Segoe UI',Helvetica,Arial,sans-serif">
+    <tr><td style="background:#071233;background-image:linear-gradient(135deg,#071233 0%,#0d2a7a 60%,#2f6bff 140%);padding:30px 32px 34px">
+      <img src="${ETKINLIK.logo}" width="120" height="60" alt="EDK · Eğitimde Değişim Konferansı" style="display:block;border:0;width:120px;height:auto">
+      <p style="margin:26px 0 8px;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#8fd0ff">${AYARLAR.KONFERANS}</p>
+      <h1 style="margin:0;font-size:28px;line-height:1.2;font-weight:600;color:#ffffff">${ust}</h1>
+    </td></tr>
+    <tr><td style="padding:30px 32px 10px">
+      <p style="margin:0 0 26px;font-size:16px;line-height:1.65;color:#1b2a55">${giris}</p>
+      ${icerik}
+    </td></tr>
+    <tr><td style="padding:22px 32px 30px;border-top:1px solid #eef2fd;font-size:13px;line-height:1.6;color:#6b7aa6">
+      Sorularınız için: <a href="tel:+905333579072" style="color:#2f6bff;text-decoration:none">${ETKINLIK.telefon}</a> · <a href="mailto:${ETKINLIK.eposta}" style="color:#2f6bff;text-decoration:none">${ETKINLIK.eposta}</a><br>
+      Eğitimde İnovasyon Derneği · <a href="${ETKINLIK.site}" style="color:#2f6bff;text-decoration:none">EDK web sitesi</a>
+    </td></tr>
+  </table>
+</td></tr></table>
+</body></html>`;
 }
 
 function metin(deger) {
