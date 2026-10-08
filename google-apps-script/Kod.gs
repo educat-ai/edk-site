@@ -70,7 +70,9 @@ const SAYFALAR = {
       ['institution', 'Okul / Kurum'], ['jobTitle', 'Görev / Unvan'], ['education', 'Eğitim kademesi'],
       ['category', 'Tema'], ['presentationTitle', 'Sunum başlığı'], ['description', 'Sunum açıklaması'],
       ['biography', 'Özgeçmiş'], ['social', 'Sosyal medya'], ['photoUrl', 'Profil fotoğrafı'], ['consent', 'KVKK onayı'],
-      ['requestId', 'Başvuru kodu'], ['durum', 'Durum'], ['not', 'Değerlendirme notu']
+      ['requestId', 'Başvuru kodu'], ['durum', 'Durum'], ['not', 'Değerlendirme notu'],
+      // Sonradan eklenen sütunlar en sağa eklenir; eski satırlar kaymaz.
+      ['branch', 'Branş']
     ],
     zorunlu: ['fullName', 'email', 'city', 'institution', 'jobTitle', 'education', 'category', 'presentationTitle', 'description', 'biography']
   },
@@ -198,6 +200,11 @@ function sayfaHazirla(tablo, tur) {
       sayfa.getRange(2, durum, 1000, 1).setDataValidation(kural);
     }
   }
+  // Sonradan eklenen sütunların başlığı yoksa yaz (ör. Branş).
+  const basliklar = sayfa.getRange(1, 1, 1, tanim.sutunlar.length).getValues()[0];
+  tanim.sutunlar.forEach(([, etiket], i) => {
+    if (!basliklar[i]) sayfa.getRange(1, i + 1).setValue(etiket).setFontWeight('bold').setBackground('#dbe6ff');
+  });
   return sayfa;
 }
 
