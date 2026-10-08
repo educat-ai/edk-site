@@ -546,6 +546,11 @@
             <input id="participant-institution" name="institution" type="text" autocomplete="organization" required aria-describedby="participant-institution-error">
             <p class="application-field-error" id="participant-institution-error" hidden></p>
           </div>
+          <div class="application-field application-field-wide" data-participant-field="branch">
+            <label for="participant-branch">Branşın <span aria-hidden="true">*</span></label>
+            <input id="participant-branch" name="branch" type="text" required placeholder="Örn. Matematik, Rehberlik, Sınıf Öğretmenliği" aria-describedby="participant-branch-error">
+            <p class="application-field-error" id="participant-branch-error" hidden></p>
+          </div>
           <fieldset class="application-field application-field-wide application-choice-field" data-participant-field="role" aria-describedby="participant-role-error">
             <legend>Görevin <span aria-hidden="true">*</span></legend>
             <div class="application-choices">
@@ -626,7 +631,7 @@
 <script src="form-config.js?v=2"></script>
 <script src="form-submit.js?v=2"></script>
 <script src="application.js?v=application-live-3"></script>
-<script src="participant.js?v=participant-live-2"></script>
+<script src="participant.js?v=participant-live-3"></script>
 <script src="contact.js?v=1"></script>
 </body>
 </html>

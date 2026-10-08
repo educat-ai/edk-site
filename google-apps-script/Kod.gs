@@ -59,7 +59,9 @@ const SAYFALAR = {
       ['submittedAt', 'Gönderim zamanı'], ['fullName', 'Ad Soyad'], ['email', 'E-posta'], ['phone', 'Telefon'],
       ['city', 'Şehir'], ['institution', 'Okul / Kurum'], ['role', 'Görev'], ['schoolType', 'Kurum türü'],
       ['levels', 'Kademe'], ['themes', 'İlgilendiği temalar'], ['newsletter', 'Duyuru izni'], ['consent', 'KVKK onayı'],
-      ['requestId', 'Kayıt kodu']
+      ['requestId', 'Kayıt kodu'],
+      // Sonradan eklenen sütunlar en sağa eklenir; eski satırlar kaymaz.
+      ['branch', 'Branş']
     ],
     zorunlu: ['fullName', 'email', 'phone', 'city', 'institution', 'role', 'schoolType']
   },

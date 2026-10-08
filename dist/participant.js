@@ -13,6 +13,7 @@
     {name: 'phone', label: 'Telefon', kind: 'phone'},
     {name: 'city', label: 'Şehir'},
     {name: 'institution', label: 'Okul veya Kurum'},
+    {name: 'branch', label: 'Branşın'},
     {name: 'role', label: 'Görevin', kind: 'choice', message: 'Görevini seç.'},
     {name: 'schoolType', label: 'Kurum türü', kind: 'choice', message: 'Kurum türünü seç.'},
     {name: 'consent', label: 'Kişisel veri onayı', kind: 'choice', message: 'Kaydı tamamlamak için aydınlatma metnini onaylaman gerekiyor.'}
@@ -43,6 +44,7 @@
       phone: data.get('phone').trim(),
       city: data.get('city').trim(),
       institution: data.get('institution').trim(),
+      branch: data.get('branch').trim(),
       role: data.get('role'),
       schoolType: data.get('schoolType'),
       levels: data.getAll('levels'),
