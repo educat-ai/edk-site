@@ -1,0 +1,19 @@
+# EDK sitesi sunucu ayarları (LiteSpeed / Apache)
+
+# 1) http ile girenleri https'e yönlendir
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# 2) Sayfalar (HTML) her açılışta sunucuya sorulsun; güncelleme hemen görünsün.
+#    CSS, JS ve görseller sürüm etiketli (?v=...) olduğu için uzun süre saklanabilir.
+<IfModule mod_headers.c>
+<FilesMatch "\.html?$">
+Header set Cache-Control "no-cache, must-revalidate"
+</FilesMatch>
+<FilesMatch "\.(css|js|webp|jpg|jpeg|png|svg|woff2|mp4)$">
+Header set Cache-Control "public, max-age=86400"
+</FilesMatch>
+</IfModule>
