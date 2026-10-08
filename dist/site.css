@@ -154,7 +154,7 @@ button.pic{cursor:pointer}
 .spk .pic img{position:absolute;bottom:0;left:50%;transform:translateX(-50%);height:92%;width:auto;max-width:none;transition:transform .5s}
 .spk:hover .pic img{transform:translateX(-50%) scale(1.04)}
 .pic-cta{position:absolute;left:10px;right:10px;bottom:10px;z-index:2;text-align:center;padding:9px 0;border-radius:999px;background:rgba(255,255,255,.92);color:#0a1a4f;font:600 12.5px/1 var(--body);opacity:0;transform:translateY(6px);transition:.25s}
-button.pic:hover .pic-cta,button.pic:focus-visible .pic-cta{opacity:1;transform:none}
+button.pic:hover .pic-cta,button.pic:focus-visible .pic-cta,.member-photo.has-photo:hover .pic-cta,.member-photo.has-photo:focus-visible .pic-cta{opacity:1;transform:none}
 .spk h3{font-size:16.5px;font-weight:500;letter-spacing:-.015em;margin-top:16px;line-height:1.25}
 .spk .role{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.45}
 
@@ -522,6 +522,10 @@ main>section.committee-page{padding:70px 0 120px}
   background:radial-gradient(120% 80% at 50% 100%,rgba(47,107,255,.45) 0%,#0e2566 50%,#081a4d 100%)}
 .member-photo svg{width:42%;height:auto}
 .member-photo img{width:100%;height:100%;object-fit:cover;border-radius:inherit}
+.member-photo.has-photo{position:relative;display:block;width:100%;padding:0;overflow:hidden;cursor:pointer;font:inherit;color:inherit;background:radial-gradient(60% 42% at 50% 32%,rgba(143,208,255,.32),transparent 70%),linear-gradient(180deg,#0d2a7a,#071233)}
+.member-photo.has-photo img{position:absolute;left:50%;bottom:0;width:auto;height:94%;object-fit:contain;border-radius:0;transform:translateX(-50%);transition:transform .5s}
+.member-photo.has-photo:hover img{transform:translateX(-50%) scale(1.03)}
+.member .role{margin-top:6px;font-size:14px;color:var(--muted);line-height:1.45}
 .member h3{margin-top:16px;font-size:19px;font-weight:500;letter-spacing:-.015em;line-height:1.25}
 
 /* Duyarlı */

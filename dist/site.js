@@ -64,7 +64,7 @@ const speakerData = JSON.parse(document.querySelector('#speaker-data')?.textCont
 document.querySelectorAll('[data-speaker]').forEach(button => button.addEventListener('click', () => {
  const speaker = speakerData[button.dataset.speaker];
  if (!speaker) return;
- const card = button.closest('.key, .spk');
+ const card = button.closest('.key, .spk, .member');
  openInfo({title: speaker.name, paragraphs: speaker.paragraphs, role: card.querySelector('.role').textContent, photo: card.querySelector('img').currentSrc || card.querySelector('img').src});
 }));
 
