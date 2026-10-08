@@ -286,6 +286,10 @@ button.pic:hover .pic-cta,button.pic:focus-visible .pic-cta,.member-photo.has-ph
 .footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:40px}
 .footer-brand img{height:64px;width:auto;margin-bottom:20px}
 .footer-brand p{color:var(--muted);font-size:14.5px;line-height:1.7;margin-bottom:12px}
+.footer-social{display:flex;gap:10px;margin-top:18px}
+.footer-grid .footer-social a{margin:0;display:inline-flex;align-items:center;gap:10px;padding:8px 16px 8px 8px;border:1px solid var(--line);border-radius:999px;color:#e9efff;font-size:14.5px;transition:border-color .2s,color .2s,background .2s}
+.footer-grid .footer-social a:hover,.footer-grid .footer-social a:focus-visible{border-color:var(--sky);color:var(--sky);background:rgba(143,208,255,.06)}
+.footer-social svg{width:32px;height:32px;padding:7px;border-radius:50%;background:rgba(143,208,255,.1);color:var(--sky)}
 .footer-grid h2{font:500 12px/1 var(--display);letter-spacing:.24em;text-transform:uppercase;color:#fff;margin-bottom:18px}
 .footer-grid a,.footer-grid button{display:block;margin:9px 0;color:var(--muted);font-size:14.5px;background:none;border:0;padding:0;cursor:pointer;text-align:left}
 .footer-grid a:hover,.footer-grid button:hover{color:#fff}
