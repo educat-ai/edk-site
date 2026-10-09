@@ -604,3 +604,12 @@ main>section.committee-page{padding:70px 0 120px}
   .theme-grid{grid-template-columns:1fr}.theme{min-height:0;gap:22px}
   .partner{width:100%;max-width:320px}
 }
+/* Kırpılmış fotoğraflarda kesik kol/omuz kenarları zemine yumuşakça karışsın */
+.member-photo.has-photo img{
+  -webkit-mask-image:linear-gradient(to right,transparent 0,#000 13%,#000 87%,transparent 100%),linear-gradient(to top,transparent 0,#000 20%);
+  -webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent 0,#000 13%,#000 87%,transparent 100%),linear-gradient(to top,transparent 0,#000 20%);
+  mask-composite:intersect}
+.spk .pic img{
+  -webkit-mask-image:linear-gradient(to right,transparent 0,#000 8%,#000 92%,transparent 100%),linear-gradient(to top,transparent 0,#000 9%);
+  -webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent 0,#000 8%,#000 92%,transparent 100%),linear-gradient(to top,transparent 0,#000 9%);
+  mask-composite:intersect}
