@@ -193,12 +193,16 @@
             <input id="application-full-name" name="fullName" type="text" required aria-describedby="application-full-name-error">
             <p class="application-field-error" id="application-full-name-error" hidden></p>
           </div>
+          <div class="application-field" data-application-field="phone">
+            <label for="application-phone">Telefon (İsteğe Bağlı)</label>
+            <input id="application-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="05XX XXX XX XX">
+          </div>
           <div class="application-field" data-application-field="city">
             <label for="application-city">Konferansa hangi şehirden katılmak istiyorsunuz? <span aria-hidden="true">*</span></label>
             <input id="application-city" name="city" type="text" required aria-describedby="application-city-error">
             <p class="application-field-error" id="application-city-error" hidden></p>
           </div>
-          <div class="application-field" data-application-field="institution">
+          <div class="application-field application-field-wide" data-application-field="institution">
             <label for="application-institution">Görevli Olduğunuz Okul veya Kurum <span aria-hidden="true">*</span></label>
             <input id="application-institution" name="institution" type="text" required aria-describedby="application-institution-error">
             <p class="application-field-error" id="application-institution-error" hidden></p>
@@ -424,7 +428,7 @@
 <script src="site.js?v=gece-mavisi-4"></script>
 <script src="form-config.js?v=2"></script>
 <script src="form-submit.js?v=2"></script>
-<script src="application.js?v=application-live-3"></script>
+<script src="application.js?v=application-live-4"></script>
 <script src="participant.js?v=participant-live-3"></script>
 </body>
 </html>

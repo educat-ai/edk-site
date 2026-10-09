@@ -74,7 +74,7 @@ const SAYFALAR = {
       ['biography', 'Özgeçmiş'], ['social', 'Sosyal medya'], ['photoUrl', 'Profil fotoğrafı'], ['consent', 'KVKK onayı'],
       ['requestId', 'Başvuru kodu'], ['durum', 'Durum'], ['not', 'Değerlendirme notu'],
       // Sonradan eklenen sütunlar en sağa eklenir; eski satırlar kaymaz.
-      ['branch', 'Branş']
+      ['branch', 'Branş'], ['phone', 'Telefon']
     ],
     zorunlu: ['fullName', 'email', 'city', 'institution', 'jobTitle', 'education', 'category', 'presentationTitle', 'description', 'biography']
   },
@@ -168,6 +168,8 @@ function doPost(e) {
       if (deger === true) return 'Evet';
       if (deger === false || deger === undefined || deger === null) return ad === 'consent' || ad === 'newsletter' ? 'Hayır' : '';
       if (Array.isArray(deger)) return guvenli(deger.map(metin).filter(Boolean).join(', '));
+      // Telefon her zaman metin olsun: tablo baştaki 0'ı silmesin.
+      if (ad === 'phone') return metin(deger) ? "'" + metin(deger) : '';
       return guvenli(metin(deger));
     });
     sayfa.appendRow(satir);

@@ -23,6 +23,7 @@
   const fields = [
     {name: 'email', label: 'E-posta', step: 0, kind: 'email'},
     {name: 'fullName', label: 'Ad Soyad', step: 0},
+    {name: 'phone', label: 'Telefon', step: 0, optional: true},
     {name: 'city', label: 'Konferansa hangi şehirden katılmak istiyorsunuz?', step: 0},
     {name: 'biography', label: 'Özgeçmiş', step: 0},
     {name: 'institution', label: 'Görevli Olduğunuz Okul veya Kurum', step: 0},
@@ -203,7 +204,7 @@
   function collect() {
     const data = new FormData(form);
     const fieldsOut = {};
-    ['email', 'fullName', 'city', 'institution', 'biography', 'jobTitle', 'branch', 'education', 'category', 'presentationTitle', 'description', 'social']
+    ['email', 'fullName', 'phone', 'city', 'institution', 'biography', 'jobTitle', 'branch', 'education', 'category', 'presentationTitle', 'description', 'social']
       .forEach(name => { fieldsOut[name] = String(data.get(name) || '').trim(); });
     fieldsOut.consent = data.get('approval') === 'Onaylıyorum';
     return fieldsOut;
