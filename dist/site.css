@@ -613,3 +613,9 @@ main>section.committee-page{padding:70px 0 120px}
   -webkit-mask-image:linear-gradient(to right,transparent 0,#000 8%,#000 92%,transparent 100%),linear-gradient(to top,transparent 0,#000 9%);
   -webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent 0,#000 8%,#000 92%,transparent 100%),linear-gradient(to top,transparent 0,#000 9%);
   mask-composite:intersect}
+
+/* Katılımcı formu: ücret bilgisi */
+#participant-dialog .participant-fee{margin:0 0 18px;padding:14px 16px;border:1px solid #bcd0ff;border-left:4px solid #2f6bff;border-radius:12px;background:#eef4ff;color:#0a1a4f}
+#participant-dialog .participant-fee strong{display:block;font-size:16px;font-weight:700}
+#participant-dialog .participant-fee p{margin:4px 0 0;font-size:14px;line-height:1.5;color:#33446e}
+#participant-dialog .participant-success-fee{font-weight:600}
