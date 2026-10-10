@@ -598,7 +598,7 @@ main>section.committee-page{padding:70px 0 120px}
   .dlg-top{padding:24px 60px 18px 20px}.dlg-top img{width:72px;height:84px}#dialog-title{font-size:21px}.dlg-body{padding:20px}
 }
 @media (max-width:520px){
-  .nav-apply{height:40px;padding:0 16px;font-size:13.5px}
+  .nav-apply{display:none}
   .nav-logo img{height:40px}
   .nav-actions .btn-primary{height:42px;padding:0 16px}
   .theme-grid{grid-template-columns:1fr}.theme{min-height:0;gap:22px}
@@ -613,5 +613,3 @@ main>section.committee-page{padding:70px 0 120px}
   -webkit-mask-image:linear-gradient(to right,transparent 0,#000 8%,#000 92%,transparent 100%),linear-gradient(to top,transparent 0,#000 9%);
   -webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent 0,#000 8%,#000 92%,transparent 100%),linear-gradient(to top,transparent 0,#000 9%);
   mask-composite:intersect}
-
-.join-grid-single{grid-template-columns:minmax(0,640px);justify-content:center}
