@@ -35,7 +35,7 @@ const ETKINLIK = {
   kayit: '08.00 – 09.00 · Kayıt ve karşılama',
   yer: 'İstinye Üniversitesi Vadi Kampüsü',
   sehir: 'İstanbul',
-  harita: 'https://www.google.com/maps/search/?api=1&query=Istinye+Universitesi+Vadi+Ana+Kampus',
+  harita: 'https://www.google.com/maps/place/%C4%B0stinye+%C3%9Cniversitesi+Vadi+Kamp%C3%BCs+Ana+Yerle%C5%9Fke/@41.102516,28.9769482,17z/data=!4m6!3m5!1s0x14cab74f941d9733:0xd5de397c0f4275e7!8m2!3d41.102516!4d28.9769482!16s%2Fg%2F11kjf9dst3',
   site: 'https://educat-ai.github.io/edk-site/',
   logo: 'https://educat-ai.github.io/edk-site/assets/eposta/edk-logo.png',
   telefon: '0533 357 90 72',
