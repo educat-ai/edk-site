@@ -17,7 +17,7 @@ const AYARLAR = {
   // İletişim formundan gelen mesajların iletileceği adres. Boşsa mesajlar yalnızca tabloya yazılır.
   ILETISIM_EPOSTASI: 'bilgi@egitimdedegisim.com',
   // Katılımcı kontenjanı. 0 = sınırsız. Dolunca yeni kayıt kabul edilmez.
-  KATILIMCI_KONTENJANI: 0,
+  KATILIMCI_KONTENJANI: 1,
   // Fotoğrafların kaydedileceği Drive klasörünün adı.
   FOTO_KLASORU: 'EDK 2026 Başvuru Fotoğrafları',
   // E-postalarda görünen gönderen adı ve adresi. Adres, kurulumu yapan Gmail hesabında
